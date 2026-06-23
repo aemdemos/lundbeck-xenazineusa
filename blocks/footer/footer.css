@@ -70,6 +70,7 @@ footer .footer a {
   color: var(--footer-link-color);
   font-size: var(--footer-font-size);
   text-decoration: underline;
+  font-weight: unset;
 }
 
 footer .footer a:hover {
@@ -81,7 +82,7 @@ footer .footer .section:last-child {
   flex: 0 1 42%;
   min-width: 0;
   box-sizing: border-box;
-  align-self: center;
+  align-self: flex-start;
   padding: 0 15px;
   text-align: right;
 }
