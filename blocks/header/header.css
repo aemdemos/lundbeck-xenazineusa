@@ -1,10 +1,10 @@
 @import url('./header-tokens.css');
 
-/* Xenazine header — brand band (logo + intro) over a white icon-card nav band */
+/* Xenazine header — navy brand band (logo + intro text) */
 
 header .nav-wrapper {
   width: 100%;
-  background: var(--nav-band-bg);
+  background: var(--nav-brand-bg);
 }
 
 header nav {
@@ -20,8 +20,9 @@ header nav .nav-brand-band {
 
 header nav .nav-brand-inner {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
   max-width: var(--header-nav-max-width);
   margin: 0 auto;
   padding: 0 15px;
@@ -59,88 +60,11 @@ header nav .nav-intro p:last-child {
   margin-bottom: 0;
 }
 
-/* ---------- Nav band (white, icon cards) ---------- */
-header nav .nav-links-band {
-  background: var(--nav-band-bg);
-  padding: 1rem 0;
-}
-
-header nav .nav-links-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem 1.5rem;
-  max-width: var(--header-nav-max-width);
-  margin: 0 auto;
-  padding: 0 15px;
-  list-style: none;
-}
-
-header nav .nav-links-list li {
-  flex: 0 0 calc(33.333% - 1rem);
-  max-width: calc(33.333% - 1rem);
-}
-
-header nav .nav-card-link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  min-height: 115px;
-  padding: 0.5rem 0;
-  color: var(--nav-card-text-color);
-  font-size: var(--header-card-font-size);
-  font-weight: 700;
-  line-height: 1.3;
-  text-decoration: none;
-}
-
-header nav .nav-card-link:hover,
-header nav .nav-card-link:focus {
-  text-decoration: underline;
-}
-
-/* Source layout: text label on the left, icon on the right */
-header nav .nav-card-icon {
-  order: 2;
-  flex: 0 0 var(--header-card-icon-size);
-  width: var(--header-card-icon-size);
-  height: var(--header-card-icon-size);
-}
-
-/* ---------- Mobile (< 768px): stacked, no hamburger (matches source) ---------- */
-@media (width < 768px) {
+/* ---------- Tablet+ (>= 768px): logo left, intro right ---------- */
+@media (width >= 768px) {
   header nav .nav-brand-inner {
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: 1rem;
-  }
-
-  header nav .nav-brand {
-    align-self: center;
-  }
-
-  header nav .nav-intro {
-    flex: 1 1 100%;
-    width: 100%;
-  }
-
-  /* Nav band: full-width stacked card rows, always visible */
-  header nav .nav-links-list {
-    flex-direction: column;
-    gap: 0;
-  }
-
-  header nav .nav-links-list li {
-    flex: 0 0 100%;
-    max-width: 100%;
-    width: 100%;
-    border-bottom: 1px solid #eee;
-  }
-
-  header nav .nav-card-link {
-    width: 100%;
-    min-height: 0;
-    padding: 1rem 0;
+    gap: 1.5rem;
   }
 }

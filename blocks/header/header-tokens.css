@@ -3,10 +3,13 @@
   --nav-brand-bg: rgb(11 44 88);
   --nav-band-bg: #fff;
   --nav-brand-text-color: #fff;
+  --nav-card-bg: #fff;
+  --nav-card-shadow: 0 1px 4px rgb(0 0 0 / 15%);
   --nav-card-text-color: #444;
+  --nav-card-text-color-hover: rgb(35 82 124);
   --header-nav-max-width: 1200px;
   --header-logo-width: 200px;
-  --header-card-icon-size: 64px;
+  --header-card-icon-size: 78px;
   --header-card-font-size: 15px;
   --header-intro-font-size: 14px;
   --header-intro-line-height: 20px;

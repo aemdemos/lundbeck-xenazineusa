@@ -16,56 +16,33 @@ export default async function decorate(block) {
   nav.setAttribute('aria-label', 'Main navigation');
 
   const sections = [...fragment.children];
-  const [brandSection, introSection, toolsSection] = sections;
+  const [logoSection, introSection] = sections;
 
-  // Brand band: logo (left) + intro text (right)
   const brandBand = document.createElement('div');
   brandBand.className = 'nav-brand-band';
 
   const brandInner = document.createElement('div');
   brandInner.className = 'nav-brand-inner';
 
-  if (brandSection) {
+  const logoPara = logoSection?.querySelector('p');
+  if (logoPara) {
     const logoWrapper = document.createElement('div');
     logoWrapper.className = 'nav-brand';
-    const logoLink = brandSection.querySelector('a');
-    if (logoLink) logoWrapper.append(logoLink.cloneNode(true));
+    const logoContent = logoPara.querySelector('a') || logoPara.querySelector('img');
+    if (logoContent) logoWrapper.append(logoContent.cloneNode(true));
     brandInner.append(logoWrapper);
   }
 
-  if (introSection) {
+  const intros = introSection ? [...introSection.querySelectorAll('p')] : [];
+  if (intros.length) {
     const intro = document.createElement('div');
     intro.className = 'nav-intro';
-    [...introSection.querySelectorAll('p')].forEach((p) => intro.append(p.cloneNode(true)));
+    intros.forEach((p) => intro.append(p.cloneNode(true)));
     brandInner.append(intro);
   }
 
   brandBand.append(brandInner);
   nav.append(brandBand);
-
-  // Nav band: icon-card links
-  if (toolsSection) {
-    const navBand = document.createElement('div');
-    navBand.className = 'nav-links-band';
-
-    const list = document.createElement('ul');
-    list.className = 'nav-links-list';
-
-    [...toolsSection.querySelectorAll('p')].forEach((p) => {
-      const a = p.querySelector('a');
-      if (!a) return;
-      const li = document.createElement('li');
-      const link = a.cloneNode(true);
-      link.className = 'nav-card-link';
-      const img = link.querySelector('img');
-      if (img) img.className = 'nav-card-icon';
-      li.append(link);
-      list.append(li);
-    });
-
-    navBand.append(list);
-    nav.append(navBand);
-  }
 
   const navWrapper = document.createElement('div');
   navWrapper.className = 'nav-wrapper';
