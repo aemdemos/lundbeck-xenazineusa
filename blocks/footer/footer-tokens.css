@@ -5,7 +5,8 @@
   --footer-link-color: rgb(69 69 69);
   --footer-font-size: 14px;
   --footer-line-height: 20px;
-  --footer-max-width: 1200px;
-  --footer-padding: 28px 15px;
-  --footer-logo-width: 130px;
+  --footer-max-width: none;
+  --footer-padding: 30px 15px;
+  --footer-padding-mobile: 24px 30px;
+  --footer-logo-width: 150px;
 }

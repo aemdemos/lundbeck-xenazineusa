@@ -11,22 +11,27 @@ footer {
 }
 
 /* The footer.js appends: footer > div > div.footer.block > div > div.section (x2) */
+/* Mobile base: text column + logo column side-by-side, like the source */
 footer .footer > div {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
   gap: 1.5rem;
   max-width: var(--footer-max-width);
   margin: 0 auto;
-  padding: var(--footer-padding);
+  padding: var(--footer-padding-mobile);
 }
 
 footer .footer .section {
   margin: 0;
 }
 
-/* Text column (links + legal) */
+/* Text column (links + legal) — 58% with white divider on the right (source: col-sm-7 borderRight) */
 footer .footer .section:first-child {
-  flex: 1 1 auto;
+  flex: 0 1 58%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 footer .footer p {
@@ -36,18 +41,21 @@ footer .footer p {
   line-height: var(--footer-line-height);
 }
 
-/* Links row — horizontal, spread across the left portion (matches source) */
+/* Links — stacked vertically on mobile (matches source) */
 footer .footer ul {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1.75rem;
+  flex-direction: column;
+  gap: 0.75rem;
   margin: 0 0 1.25rem;
   padding: 0;
   list-style: none;
 }
 
+/* Tablet+: horizontal row spread across the left portion */
 @media (width >= 768px) {
   footer .footer ul {
+    flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-between;
     max-width: 540px;
     gap: 1rem;
@@ -68,13 +76,22 @@ footer .footer a:hover {
   text-decoration: underline;
 }
 
-/* Logo column */
+/* Logo column — 42% (source: col-sm-5), logo right-aligned (source: card-image pull-right) */
 footer .footer .section:last-child {
-  flex: 0 0 auto;
+  flex: 0 1 42%;
+  min-width: 0;
+  box-sizing: border-box;
+  align-self: center;
+  padding: 0 15px;
+  text-align: right;
 }
 
 footer .footer .section:last-child p {
   margin: 0;
+}
+
+footer .footer .section:last-child img {
+  margin-left: auto;
 }
 
 footer .footer .section:last-child img {
@@ -83,18 +100,19 @@ footer .footer .section:last-child img {
   height: auto;
 }
 
-/* ---------- Tablet+ (>= 768px): two columns with vertical divider ---------- */
+/* ---------- Tablet+ (>= 768px): 58/42 split with white divider (matches source) ---------- */
 @media (width >= 768px) {
   footer .footer > div {
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 2.5rem;
+    gap: 0;
+    padding: var(--footer-padding);
+  }
+
+  footer .footer .section:first-child {
+    padding-right: 30px;
+    border-right: 1px solid rgb(255 255 255);
   }
 
   footer .footer .section:last-child {
-    align-self: center;
-    padding-left: 2.5rem;
-    border-left: 1px solid rgb(255 255 255 / 70%);
+    padding-left: 30px;
   }
 }
