@@ -50,16 +50,6 @@ footer .footer ul {
   list-style: none;
 }
 
-/* Tablet+: horizontal row spread across the left portion */
-@media (width >= 768px) {
-  footer .footer ul {
-    flex-flow: row wrap;
-    justify-content: space-between;
-    max-width: 540px;
-    gap: 1rem;
-  }
-}
-
 footer .footer ul li {
   margin: 0;
 }
@@ -96,7 +86,7 @@ footer .footer .section:last-child img {
   height: auto;
 }
 
-/* ---------- Tablet+ (>= 768px): 58/42 split with white divider (matches source) ---------- */
+/* Tablet+ (>= 768px): 58/42 split, horizontal links, white divider */
 @media (width >= 768px) {
   footer .footer > div {
     gap: 0;
@@ -110,5 +100,12 @@ footer .footer .section:last-child img {
 
   footer .footer .section:last-child {
     padding-left: 30px;
+  }
+
+  footer .footer ul {
+    flex-flow: row wrap;
+    justify-content: space-between;
+    max-width: 540px;
+    gap: 1rem;
   }
 }
