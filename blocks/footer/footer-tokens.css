@@ -1,6 +1,11 @@
-/* footer design tokens */
-:root { /* @boilerplate */
-  --footer-max-width: var(--max-width-site); /* @boilerplate */
-  --footer-padding: var(--spacing-xl) var(--spacing-m) var(--spacing-m); /* @boilerplate */
-  --footer-padding-desktop: var(--spacing-xl) var(--spacing-l) var(--spacing-m); /* @boilerplate */
+/* footer design tokens (Xenazine) */
+:root {
+  --footer-bg: rgb(212 213 213);
+  --footer-text-color: rgb(69 69 69);
+  --footer-link-color: rgb(69 69 69);
+  --footer-font-size: 14px;
+  --footer-line-height: 20px;
+  --footer-max-width: 1200px;
+  --footer-padding: 28px 15px;
+  --footer-logo-width: 130px;
 }

@@ -1,22 +1,100 @@
 @import url('./footer-tokens.css');
 
-footer { /* @boilerplate */
-  background-color: var(--light-color); /* @boilerplate */
-  font-size: var(--body-font-size-xs); /* @boilerplate */
+/* Xenazine footer — light-gray band, text column + Lundbeck logo column */
+
+footer {
+  background-color: var(--footer-bg);
+  color: var(--footer-text-color);
+  font-size: var(--footer-font-size);
+  line-height: var(--footer-line-height);
+  font-family: var(--body-font-family, "Avenir LT W01_65 Medium", arial, sans-serif);
 }
 
-footer .footer > div { /* @boilerplate */
-  margin: auto; /* @boilerplate */
-  max-width: var(--footer-max-width); /* @boilerplate */
-  padding: var(--footer-padding); /* @boilerplate */
+/* The footer.js appends: footer > div > div.footer.block > div > div.section (x2) */
+footer .footer > div {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: var(--footer-max-width);
+  margin: 0 auto;
+  padding: var(--footer-padding);
 }
 
-footer .footer p { /* @boilerplate */
-  margin: 0; /* @boilerplate */
+footer .footer .section {
+  margin: 0;
 }
 
-@media (width >= 768px) { /* @boilerplate */
-  footer .footer > div { /* @boilerplate */
-    padding: var(--footer-padding-desktop); /* @boilerplate */
+/* Text column (links + legal) */
+footer .footer .section:first-child {
+  flex: 1 1 auto;
+}
+
+footer .footer p {
+  margin: 0 0 0.25rem;
+  color: var(--footer-text-color);
+  font-size: var(--footer-font-size);
+  line-height: var(--footer-line-height);
+}
+
+/* Links row — horizontal, spread across the left portion (matches source) */
+footer .footer ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.75rem;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  list-style: none;
+}
+
+@media (width >= 768px) {
+  footer .footer ul {
+    justify-content: space-between;
+    max-width: 540px;
+    gap: 1rem;
+  }
+}
+
+footer .footer ul li {
+  margin: 0;
+}
+
+footer .footer a {
+  color: var(--footer-link-color);
+  font-size: var(--footer-font-size);
+  text-decoration: underline;
+}
+
+footer .footer a:hover {
+  text-decoration: underline;
+}
+
+/* Logo column */
+footer .footer .section:last-child {
+  flex: 0 0 auto;
+}
+
+footer .footer .section:last-child p {
+  margin: 0;
+}
+
+footer .footer .section:last-child img {
+  display: block;
+  width: var(--footer-logo-width);
+  height: auto;
+}
+
+/* ---------- Tablet+ (>= 768px): two columns with vertical divider ---------- */
+@media (width >= 768px) {
+  footer .footer > div {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2.5rem;
+  }
+
+  footer .footer .section:last-child {
+    align-self: center;
+    padding-left: 2.5rem;
+    border-left: 1px solid rgb(255 255 255 / 70%);
   }
 }
