@@ -11,7 +11,6 @@ footer {
 }
 
 /* The footer.js appends: footer > div > div.footer.block > div > div.section (x2) */
-/* Mobile base: text column + logo column side-by-side, like the source */
 footer .footer > div {
   display: flex;
   flex-direction: row;
@@ -54,8 +53,7 @@ footer .footer ul {
 /* Tablet+: horizontal row spread across the left portion */
 @media (width >= 768px) {
   footer .footer ul {
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-flow: row wrap;
     justify-content: space-between;
     max-width: 540px;
     gap: 1rem;
@@ -92,11 +90,8 @@ footer .footer .section:last-child p {
 }
 
 footer .footer .section:last-child img {
-  margin-left: auto;
-}
-
-footer .footer .section:last-child img {
   display: block;
+  margin-left: auto;
   width: var(--footer-logo-width);
   height: auto;
 }
