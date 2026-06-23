@@ -7,8 +7,9 @@ import { loadFragment } from '../fragment/fragment.js';
  */
 export default async function decorate(block) {
   const navMeta = getMetadata('nav');
-  const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/content/nav';
+  const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
   const fragment = await loadFragment(navPath);
+  if (!fragment) return;
 
   block.textContent = '';
   const nav = document.createElement('nav');
