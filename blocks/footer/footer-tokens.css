@@ -1,6 +1,36 @@
 /* footer design tokens */
-:root { /* @boilerplate */
-  --footer-max-width: var(--max-width-site); /* @boilerplate */
-  --footer-padding: var(--spacing-xl) var(--spacing-m) var(--spacing-m); /* @boilerplate */
-  --footer-padding-desktop: var(--spacing-xl) var(--spacing-l) var(--spacing-m); /* @boilerplate */
+:root {
+  /* layout */
+  --footer-max-width: none;
+  --footer-background: #d4d5d5;
+  --footer-text-color: #454545;
+  --footer-font-size: 14px;
+
+  /* fallback font stack — resolves to system Avenir or standard sans-serif */
+  --footer-font-family: "Avenir LT W01_85 Heavy", "nunito sans", "Avenir Next", avenir, "Segoe UI", roboto, helvetica, arial, sans-serif;
+
+  /* mobile: extra bottom padding clears the fixed mobile ISI bar */
+  --footer-padding: 20px 15px 160px;
+  --footer-padding-desktop: 30px 15px;
+
+  /* mobile: space above each paragraph in the links/legal block */
+  --footer-link-mobile-gap: 10px;
+
+  /* link row */
+  --footer-link-color: #454545;
+  --footer-link-font-size: 14px;
+  --footer-link-font-weight: 400;
+  --footer-link-padding: 0;
+  --footer-link-row-line-height: 16px;
+
+  /* white column divider; also used as the mobile rule below the links section */
+  --footer-divider-color: #fff;
+  --footer-divider-padding-bottom: 23px;
+  --footer-divider-margin-bottom: 11px;
+
+  /* legal copy */
+  --footer-legal-line-height: 22.86px;
+
+  /* logo */
+  --footer-logo-width: 200px;
 }

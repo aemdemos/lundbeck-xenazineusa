@@ -1,22 +1,119 @@
 @import url('./footer-tokens.css');
 
-footer { /* @boilerplate */
-  background-color: var(--light-color); /* @boilerplate */
-  font-size: var(--body-font-size-xs); /* @boilerplate */
+footer {
+  background-color: var(--footer-background);
+  color: var(--footer-text-color);
+  font-size: var(--footer-font-size);
 }
 
-footer .footer > div { /* @boilerplate */
-  margin: auto; /* @boilerplate */
-  max-width: var(--footer-max-width); /* @boilerplate */
-  padding: var(--footer-padding); /* @boilerplate */
+footer .footer > div {
+  margin: auto;
+  max-width: var(--footer-max-width);
+  padding: var(--footer-padding);
 }
 
-footer .footer p { /* @boilerplate */
-  margin: 0; /* @boilerplate */
+footer .footer p {
+  margin: 0;
 }
 
-@media (width >= 768px) { /* @boilerplate */
-  footer .footer > div { /* @boilerplate */
-    padding: var(--footer-padding-desktop); /* @boilerplate */
+/* Mobile-first: links/legal section has a thin white rule below */
+footer .footer .default-content-wrapper {
+  margin-bottom: var(--footer-divider-margin-bottom);
+  padding-bottom: var(--footer-divider-padding-bottom);
+  border-bottom: 1px solid var(--footer-divider-color);
+  text-align: left;
+}
+
+footer .footer .default-content-wrapper p {
+  margin-top: var(--footer-link-mobile-gap);
+}
+
+footer .footer .default-content-wrapper a {
+  display: inline-block;
+  padding: var(--footer-link-padding);
+  color: var(--footer-link-color);
+  font-family: var(--footer-font-family);
+  font-size: var(--footer-link-font-size);
+  font-weight: var(--footer-link-font-weight);
+  line-height: var(--footer-link-row-line-height);
+  text-decoration: underline;
+}
+
+footer .footer .default-content-wrapper a:hover {
+  opacity: 0.8;
+}
+
+/* Links list: remove bullets */
+footer .footer .default-content-wrapper ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Logo section: no horizontal rule on mobile */
+footer .footer .section:nth-child(2) .default-content-wrapper {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+/* Logo: constrain to token width */
+footer .footer .section:nth-child(2) img {
+  width: var(--footer-logo-width);
+  max-width: 100%;
+  height: auto;
+}
+
+@media (width >= 768px) {
+  /* Flex row: section 1 (left) and section 2 (right) side by side */
+  footer .footer > div {
+    display: flex;
+    align-items: flex-start;
+    padding: var(--footer-padding-desktop);
+  }
+
+  /* Left column: links + legal (~58%) with white right-border as divider */
+  footer .footer .section:first-child {
+    flex: 0 0 58.3%;
+    border-inline-end: 1px solid var(--footer-divider-color);
+    padding-inline-end: 15px;
+  }
+
+  /* Right column: logo (~41.7%) */
+  footer .footer .section:nth-child(2) {
+    flex: 0 0 41.7%;
+    padding-inline-start: 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Desktop: links in a horizontal flex row */
+  footer .footer .default-content-wrapper ul {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+
+  footer .footer .default-content-wrapper li {
+    flex: 1;
+  }
+
+  /* Desktop: legal paragraphs — block-level, no extra top margin */
+  footer .footer .default-content-wrapper p {
+    display: block;
+    text-align: left;
+    margin-top: 0;
+    line-height: var(--footer-legal-line-height);
+  }
+
+  footer .footer .default-content-wrapper p + p {
+    margin-top: 4px;
+  }
+
+  /* Desktop: remove the mobile rule; the column border-inline-end is the divider */
+  footer .footer .default-content-wrapper {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
   }
 }
