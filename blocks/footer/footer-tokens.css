@@ -9,4 +9,15 @@
   --footer-padding: 30px 15px;
   --footer-padding-mobile: 24px 30px;
   --footer-logo-width: 200px;
+  --footer-div-gap: 1.5rem;
+  --footer-margin-p: 0 0 0.25rem;
+  --footer-ul-gap: 0.75rem;
+  --footer-margin-ul: 0 0 1.25rem;
+  --footer-padding-div: 0 15px;
+  --footer-div-gap-desktop: 0;
+  --footer-padding-right: 30px;
+  --footer-border-right: 1px solid rgb(255 255 255);
+  --footer-padding-left-desktop: 30px;
+  --footer-ul-gap-desktop: 1rem;
+  --footer-max-width-desktop: 540px;
 }

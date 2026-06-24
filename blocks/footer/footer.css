@@ -16,7 +16,7 @@ footer .footer > div {
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 1.5rem;
+  gap: var(--footer-div-gap);
   max-width: var(--footer-max-width);
   margin: 0 auto;
   padding: var(--footer-padding-mobile);
@@ -34,7 +34,7 @@ footer .footer .section:first-child {
 }
 
 footer .footer p {
-  margin: 0 0 0.25rem;
+  margin: var(--footer-margin-p);
   color: var(--footer-text-color);
   font-size: var(--footer-font-size);
   line-height: var(--footer-line-height);
@@ -44,8 +44,8 @@ footer .footer p {
 footer .footer ul {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  margin: 0 0 1.25rem;
+  gap: var(--footer-ul-gap);
+  margin: var(--footer-margin-ul);
   padding: 0;
   list-style: none;
 }
@@ -71,7 +71,7 @@ footer .footer .section:last-child {
   min-width: 0;
   box-sizing: border-box;
   align-self: flex-start;
-  padding: 0 15px;
+  padding: var(--footer-padding-div);
   text-align: right;
 }
 
@@ -89,23 +89,23 @@ footer .footer .section:last-child img {
 /* Tablet+ (>= 768px): 58/42 split, horizontal links, white divider */
 @media (width >= 768px) {
   footer .footer > div {
-    gap: 0;
+    gap: var(--footer-div-gap-desktop);
     padding: var(--footer-padding);
   }
 
   footer .footer .section:first-child {
-    padding-right: 30px;
-    border-right: 1px solid rgb(255 255 255);
+    padding-right: var(--footer-padding-right);
+    border-right: var(--footer-border-right);
   }
 
   footer .footer .section:last-child {
-    padding-left: 30px;
+    padding-left: var(--footer-padding-left-desktop);
   }
 
   footer .footer ul {
     flex-flow: row wrap;
     justify-content: space-between;
-    max-width: 540px;
-    gap: 1rem;
+    max-width: var(--footer-max-width-desktop);
+    gap: var(--footer-ul-gap-desktop);
   }
 }
