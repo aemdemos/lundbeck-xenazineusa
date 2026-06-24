@@ -72,19 +72,24 @@ footer .footer .section:nth-child(2) img {
     padding: var(--footer-padding-desktop);
   }
 
-  /* Left column: links + legal (~58%) with white right-border as divider */
+  /* Left column: links + legal (~58%) with white right-border as divider.
+     box-sizing: border-box ensures flex-basis includes padding + border so the
+     two columns sum to exactly 100% of the container (prevents horizontal overflow). */
   footer .footer .section:first-child {
+    box-sizing: border-box;
     flex: 0 0 58.3%;
     border-inline-end: 1px solid var(--footer-divider-color);
     padding-inline-end: 15px;
   }
 
-  /* Right column: logo (~41.7%) */
+  /* Right column: logo (~41.7%) — flex-end pushes the logo to the right edge */
   footer .footer .section:nth-child(2) {
+    box-sizing: border-box;
     flex: 0 0 41.7%;
     padding-inline-start: 30px;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
   }
 
   /* Desktop: links in a horizontal flex row */
