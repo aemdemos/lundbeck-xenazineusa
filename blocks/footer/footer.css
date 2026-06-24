@@ -12,23 +12,26 @@ footer .footer > div {
   padding: var(--footer-padding);
 }
 
+/* Reset paragraph margins globally inside footer */
 footer .footer p {
   margin: 0;
 }
 
-/* Mobile-first: links/legal section has a thin white rule below */
-footer .footer .default-content-wrapper {
-  margin-bottom: var(--footer-divider-margin-bottom);
-  padding-bottom: var(--footer-divider-padding-bottom);
-  border-bottom: 1px solid var(--footer-divider-color);
-  text-align: left;
+/* Override the columns block's divider colour and cell spacing for the footer context */
+footer .footer .columns.divider {
+  --columns-divider-color: var(--footer-divider-color);
+  --columns-divider-spacing: 15px;
 }
 
-footer .footer .default-content-wrapper p {
-  margin-top: var(--footer-link-mobile-gap);
+/* Links list (if JS decoration converts <p><a> → <ul><li>) */
+footer .footer .columns ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-footer .footer .default-content-wrapper a {
+/* Link styles — shared by both <p><a> and <li><a> structures */
+footer .footer .columns a {
   display: inline-block;
   padding: var(--footer-link-padding);
   color: var(--footer-link-color);
@@ -39,86 +42,91 @@ footer .footer .default-content-wrapper a {
   text-decoration: underline;
 }
 
-footer .footer .default-content-wrapper a:hover {
+footer .footer .columns a:hover {
   opacity: 0.8;
 }
 
-/* Links list: remove bullets */
-footer .footer .default-content-wrapper ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+/* Mobile: paragraph spacing */
+footer .footer .columns p {
+  margin-top: var(--footer-link-mobile-gap);
 }
 
-/* Logo section: no horizontal rule on mobile */
-footer .footer .section:nth-child(2) .default-content-wrapper {
-  border-bottom: none;
-  padding-bottom: 0;
-  margin-bottom: 0;
+/* Mobile: white rule below the links/legal cell before the logo stacks beneath */
+footer .footer .columns > div > div:first-child {
+  padding-bottom: var(--footer-divider-padding-bottom);
+  margin-bottom: var(--footer-divider-margin-bottom);
+  border-bottom: 1px solid var(--footer-divider-color);
 }
 
 /* Logo: constrain to token width */
-footer .footer .section:nth-child(2) img {
+footer .footer .columns img {
   width: var(--footer-logo-width);
   max-width: 100%;
   height: auto;
 }
 
 @media (width >= 768px) {
-  /* Flex row: section 1 (left) and section 2 (right) side by side */
   footer .footer > div {
-    display: flex;
-    align-items: flex-start;
     padding: var(--footer-padding-desktop);
   }
 
-  /* Left column: links + legal (~58%) with white right-border as divider.
-     box-sizing: border-box ensures flex-basis includes padding + border so the
-     two columns sum to exactly 100% of the container (prevents horizontal overflow). */
-  footer .footer .section:first-child {
+  /* Left column (~58%): box-sizing: border-box prevents horizontal overflow */
+  footer .footer .columns.divider > div > div:first-child {
     box-sizing: border-box;
     flex: 0 0 58.3%;
-    border-inline-end: 1px solid var(--footer-divider-color);
-    padding-inline-end: 15px;
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
   }
 
-  /* Right column: logo (~41.7%) — flex-end pushes the logo to the right edge */
-  footer .footer .section:nth-child(2) {
+  /* Right column (~42%): logo pushed to the right edge */
+  footer .footer .columns.divider > div > .columns-img-col {
     box-sizing: border-box;
     flex: 0 0 41.7%;
-    padding-inline-start: 30px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
   }
 
-  /* Desktop: links in a horizontal flex row */
-  footer .footer .default-content-wrapper ul {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 12px;
-  }
-
-  footer .footer .default-content-wrapper li {
-    flex: 1;
-  }
-
-  /* Desktop: legal paragraphs — block-level, no extra top margin */
-  footer .footer .default-content-wrapper p {
+  /* Desktop: legal paragraph base styles */
+  footer .footer .columns p {
     display: block;
     text-align: left;
     margin-top: 0;
     line-height: var(--footer-legal-line-height);
   }
 
-  footer .footer .default-content-wrapper p + p {
+  footer .footer .columns p + p {
     margin-top: 4px;
   }
 
-  /* Desktop: remove the mobile rule; the column border-inline-end is the divider */
-  footer .footer .default-content-wrapper {
-    border-bottom: none;
-    padding-bottom: 0;
-    margin-bottom: 0;
+  /* --- Link row ---
+     Handles <p><a> structure (authored paragraphs with links).
+     If aem.js later converts these to <ul><li>, the ul rules below take over. */
+  footer .footer .columns p:has(> a:only-child) {
+    display: inline-block;
+    min-width: calc(33.33% - 15px);
+    margin-top: 0;
+  }
+
+  /* Space between the link row and the first legal paragraph
+     (only when the following paragraph is NOT itself a link-paragraph) */
+  footer .footer .columns p:has(> a:only-child) + p:not(:has(> a:only-child)) {
+    margin-top: 12px;
+  }
+
+  /* Fallback: links in <ul> after JS decoration */
+  footer .footer .columns ul {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+
+  footer .footer .columns li {
+    flex: 1;
+  }
+
+  footer .footer .columns ul + p {
+    margin-top: 0;
   }
 }
