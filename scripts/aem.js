@@ -531,28 +531,6 @@ function decorateSections(main) {
     section.classList.add('section');
     section.setAttribute('data-section-status', 'initialized');
     section.style.display = 'none';
-
-    // Process section metadata
-    const sectionMeta = section.querySelector('div.section-metadata');
-    if (sectionMeta) {
-      const meta = readBlockConfig(sectionMeta);
-      Object.entries(meta)
-        .slice(0, MAX_LOOP_ITERATIONS.sectionMetaKeys)
-        .forEach(([key, value]) => {
-          if (key === 'style') {
-            const styleStr = typeof value === 'string' ? value : '';
-            const styles = styleStr
-              .split(',')
-              .filter((style) => style)
-              .map((style) => toClassName(style.trim()))
-              .slice(0, MAX_LOOP_ITERATIONS.sectionMetaStyles);
-            styles.forEach((style) => section.classList.add(style));
-          } else if (isSafeObjectKey(key)) {
-            section.setAttribute(`data-${key}`, String(value ?? ''));
-          }
-        });
-      sectionMeta.parentNode.remove();
-    }
   });
 }
 
