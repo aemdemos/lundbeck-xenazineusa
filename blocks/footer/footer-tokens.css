@@ -48,9 +48,9 @@
      --footer-font-family : base footer font (override per brand font). */
   --footer-max-width: var(--max-width-site); /* 1140px content width */ /* @boilerplate */
   --footer-background: var(--background-color); /* white body */ /* @boilerplate */
-  --footer-text-color: var(--text-color); /* @boilerplate */
-  --footer-font-family: var(--body-font-family); /* proxima-nova */ /* @boilerplate */
-  --footer-font-size: var(--body-font-size-ms); /* @boilerplate */
+  --footer-text-color: #454545; /* xenazine grey body text */
+  --footer-font-family: "Avenir LT W01_65 Medium", avenir, "Century Gothic", sans-serif; /* xenazine: no Avenir webfont bundled — degrades to sans-serif */
+  --footer-font-size: 14px; /* xenazine base footer text */
 
   /* ---- link section --------------------------------------------------
      Vyepti renders this as a full-width coloured BAND (set
@@ -58,20 +58,20 @@
      inline link list (Onfi/Xenazine/Sabril), set the band background to
      `transparent`, drop the band padding, and set the link color to the
      brand link colour instead of #fff. */
-  --footer-linkbar-background: var(--brand-teal); /* #046183; use transparent for no band */ /* @boilerplate */
-  --footer-linkbar-padding: 20px 0 22px; /* outer band padding; 0 when no band */ /* @boilerplate */
+  --footer-linkbar-background: transparent; /* xenazine: plain inline list, no band */
+  --footer-linkbar-padding: 0; /* xenazine: no band, no outer padding */
   --footer-linkbar-inner-padding: 0 15px; /* gutter inside the max-width wrapper */ /* @boilerplate */
-  --footer-link-text-align: center; /* center on band; left for inline lists */ /* @boilerplate */
-  --footer-link-color: #fff; /* link text on the band */ /* @boilerplate */
-  --footer-link-hover-color: var(--brand-teal-light); /* #7ebcc6 */ /* @boilerplate */
-  --footer-link-decoration: none; /* @boilerplate */
-  --footer-link-hover-decoration: none; /* set to underline for plain-list sites */ /* @boilerplate */
+  --footer-link-text-align: left; /* xenazine: left-aligned link list */
+  --footer-link-color: #454545; /* xenazine grey links */
+  --footer-link-hover-color: #454545; /* xenazine: colour unchanged on hover */
+  --footer-link-decoration: underline; /* xenazine links are underlined */
+  --footer-link-hover-decoration: underline; /* xenazine: stays underlined */
   --footer-link-font-size: 14px; /* mobile */ /* @boilerplate */
-  --footer-link-font-size-desktop: 16px; /* @boilerplate */
-  --footer-link-font-weight: 600; /* @boilerplate */
-  --footer-link-line-height: 22px; /* @boilerplate */
+  --footer-link-font-size-desktop: 14px; /* xenazine: 14px at all widths */
+  --footer-link-font-weight: 400; /* xenazine: regular weight */
+  --footer-link-line-height: 20px; /* xenazine */
   --footer-link-gap: 40px; /* horizontal space between links (desktop row) */ /* @boilerplate */
-  --footer-link-mobile-gap: 10px; /* vertical gap when stacked on mobile */ /* @boilerplate */
+  --footer-link-mobile-gap: 20px; /* xenazine: 20px vertical gap when stacked */
   --footer-transition: 0.2s ease; /* @boilerplate */
 
   /* ---- body section (legal + logo) ---------------------------------- */
@@ -79,13 +79,13 @@
   --footer-body-padding-mobile: 24px 15px 28px; /* @boilerplate */
 
   /* legal column (column 1) */
-  --footer-legal-color: #484848; /* @boilerplate */
+  --footer-legal-color: #454545; /* xenazine grey legal copy */
   --footer-legal-font-size: 14px; /* @boilerplate */
   --footer-legal-line-height: 20px; /* @boilerplate */
   --footer-legal-margin-bottom: 16px; /* @boilerplate */
   --footer-legal-width: 58.3333%; /* desktop 2-col split: legal vs right col */ /* @boilerplate */
 
-  /* right column (column 2) */
+  /* right column (column 2) — xenazine: logo only, no phone/social */
   --footer-right-width: 41.6667%; /* @boilerplate */
 
   /* ---- "For assistance, call" label (Vyepti only) ------------------- */
@@ -126,57 +126,30 @@
 } /* @boilerplate */
 
 /* =====================================================================
-   SITE-SPECIFIC OVERRIDES (extension layer)
+   SITE-SPECIFIC OVERRIDES (extension layer) — XENAZINE
    ---------------------------------------------------------------------
-   Add rules here that the shared footer.css doesn't cover for a given
-   site. The Vyepti reference needs none. Examples a cloning developer
-   might add (kept here as commented guidance):
+   Xenazine shape (https://www.xenazineusa.com/): transparent footer, no
+   coloured band, no phone pill, no social icons. A left-aligned inline
+   list of legal links sits above the legal copy, with the Lundbeck logo
+   in the right column. All grey (#454545), Avenir, 14px. The token block
+   above already configures the colours/typography/no-band layout; the
+   rules below are the few things the shared footer.css doesn't tokenise.
 
-   Onfi — gray panel, teal inline links, no band:
-     :root {
-       --footer-linkbar-background: #d4d5d5;
-       --footer-linkbar-padding: 30px 0;
-       --footer-link-color: #008c99;
-       --footer-link-hover-decoration: underline;
-       --footer-legal-font-size: 16px;
-       --footer-logo-width: 114px;
-       --footer-font-family: "Avenir LT W01_55 Roman", avenir, sans-serif;
-     }
-
-   Xenazine / Sabril — transparent, plain inline link list, no band:
-     :root {
-       --footer-linkbar-background: transparent;
-       --footer-linkbar-padding: 0;
-       --footer-link-text-align: left;
-       --footer-link-color: #454545;   (Sabril: #652d89)
-       --footer-link-hover-decoration: underline;
-     }
-
-   Vyepti HCP (www.vyeptihcp.com) — open-sans, top divider rule, logo +
-   inline bold muted-teal links, legal copy below. No band/phone/social.
-   Link row sits left-aligned beneath the logo; links are 16px/700 #41748d
-   with a 40px gap, legal copy is 14px #484848. The divider rule above the
-   footer is the one extra selector the shared structure doesn't provide,
-   so it lives in the override block below.
-     :root {
-       --footer-font-family: open-sans, sans-serif;
-       --footer-linkbar-background: transparent;
-       --footer-linkbar-padding: 0;
-       --footer-link-text-align: left;
-       --footer-link-color: var(--brand-teal-muted);   (#41748d)
-       --footer-link-hover-color: var(--brand-teal);
-       --footer-link-font-size: 16px;
-       --footer-link-font-size-desktop: 16px;
-       --footer-link-font-weight: 700;
-       --footer-link-line-height: 24px;
-       --footer-legal-color: #484848;
-       --footer-legal-font-size: 14px;
-       --footer-legal-line-height: 18px;
-     }
-     :root { --footer-divider: 1px solid #a4a4a4; }   (token consumed below)
-     footer .footer .section:first-child {
-       border-top: var(--footer-divider, none);
-       padding-top: 16px;
-       margin-top: 16px;
-     }
+   NOTE FOR LIBS TEAM — the legal-copy text-align is NOT tokenised in
+   footer.css: it is hard-coded `center` on mobile (footer.css line ~94)
+   and switched to `left` only at the >=768px breakpoint (line ~201).
+   Xenazine (like Onfi/Sabril) is left-aligned at ALL widths, so we have
+   to re-assert `text-align: left` on mobile here. Consider adding a
+   `--footer-legal-text-align` token to footer.css so plain-list sites
+   needn't override this selector. (Vyepti is centre-on-mobile, so the
+   current default is correct for the reference site.)
    ===================================================================== */
+
+/* xenazine: legal copy is left-aligned on mobile too (matches live site).
+   Extra .columns-container class lifts specificity above footer.css's
+   `footer .footer .columns p { text-align: center }` — required because
+   footer-tokens.css is @imported at the TOP of footer.css, so an
+   equal-specificity rule here would lose on source order. */
+footer .footer .columns-container .columns p {
+  text-align: left;
+}
