@@ -1,0 +1,25 @@
+{
+  "definitions": [
+    {
+      "title": "Cards-nav",
+      "id": "cards-nav",
+      "plugins": {
+        "da": {
+          "rows": 0,
+          "columns": 0
+        }
+      },
+      "model": "cards-nav",
+      "filter": "cards-nav"
+    }
+  ],
+  "models": [],
+  "filters": [
+    {
+      "id": "cards-nav",
+      "components": [
+        "card"
+      ]
+    }
+  ]
+}
