@@ -252,7 +252,16 @@ footer .footer .section.columns-container > * {
     margin-right: 0;
   }
 
+  /* legal copy paragraphs (no link) each sit on their OWN line below the
+     link row. footer.css renders footer paragraphs as `display: inline-block`
+     (a Vyepti single-row links treatment); on wide screens the ©2024 line
+     doesn't fill the column, so the following inline-block (TBZ-B-100001v4)
+     flows up beside it instead of onto its own line. Forcing `display: block`
+     makes each legal paragraph a full-width line — matching the DA document
+     and the live site, where TBZ-B is always on a separate line. `clear: left`
+     drops the block below the floated link row. */
   footer .footer .columns-container .columns.columns-2-cols > div > :first-child > p:not(:has(a)) {
+    display: block;
     clear: left;
   }
 }
