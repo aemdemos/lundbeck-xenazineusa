@@ -266,17 +266,50 @@ footer .footer .section.columns-container > * {
   }
 }
 
-/* NOTE FOR LIBS TEAM — mobile layout divergence (not fixable via tokens):
-   On the live xenazine site the MOBILE footer is a 2-column layout (legal
-   links stacked on the LEFT, Lundbeck logo on the RIGHT, side-by-side),
-   with the legal copy full-width below. Our DA authors links + legal copy
-   together in column 1 and the logo alone in column 2, and the shared
-   blocks/columns/columns.css stacks all columns vertically below the
-   600px breakpoint (logo first via order:0, then the text column). That
-   produces logo-on-top, then links, then legal — a faithful, clean stack,
-   but not the live 2-col mobile arrangement.
-   Reproducing the live mobile layout would require either (a) changing the
-   DA block structure (splitting links into their own column), or (b) a
-   columns.css change to keep this footer 2-up on mobile — both are out of
-   scope here (no footer.css edits; DA structure unchanged). Flagging for
-   the libs team in case a `--columns-mobile-stack` opt-out token is wanted. */
+/* xenazine: desktop (>=768px) — keep the 2-column flex layout with the logo
+   on the right. columns.css defaults to flex-direction:column + order:0 on
+   .columns-img-col (image on top); override scoped to the footer so DOM order
+   places the text column left and the logo right. */
+@media (width >= 768px) {
+  footer .footer .columns > div {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  footer .footer .columns > div > div:first-child {
+    flex: 0 0 58.3333%;
+    box-sizing: border-box;
+  }
+
+  footer .footer .columns > div > .columns-img-col {
+    flex: 0 0 41.6667%;
+    box-sizing: border-box;
+    order: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+  }
+}
+
+/* xenazine: mobile (<768px) — pull the logo out of column flow so the legal
+   copy can span full width beneath it. The columns flex container keeps its
+   vertical stacking; .columns-img-col is taken out of flow (position:absolute)
+   and pinned to the top-right corner. Link paragraphs are right-padded to
+   leave the logo's footprint clear; legal copy below them has no padding, so
+   it stretches the full column width. */
+@media (width < 768px) {
+  footer .footer .columns > div {
+    position: relative;
+  }
+
+  footer .footer .columns > div > .columns-img-col {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  /* indent only the link paragraphs — legal text below is unrestricted */
+  footer .footer .columns > div > div:first-child > p:has(> a:only-child) {
+    padding-right: calc(var(--footer-logo-width) + 10px);
+  }
+}
