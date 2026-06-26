@@ -1,33 +1,190 @@
 @import url('./cards-tokens.css');
 
-.cards > ul { /* @boilerplate */
-  list-style: none; /* @boilerplate */
-  margin: 0; /* @boilerplate */
-  padding: 0; /* @boilerplate */
-  display: grid; /* @boilerplate */
-  grid-template-columns: repeat(auto-fill, minmax(var(--cards-grid-min-width), 1fr)); /* @boilerplate  layout strategy: responsive auto-fill grid */
-  gap: var(--cards-grid-gap); /* @boilerplate */
+/* Xenazine resource cards — mobile green bars; tablet/desktop white shadow tiles */
+
+.cards > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--cards-grid-gap-mobile);
 }
 
-.cards > ul > li { /* @boilerplate */
-  border: var(--cards-card-border-width) solid var(--cards-card-border-color); /* @boilerplate */
-  background-color: var(--cards-card-background); /* @boilerplate */
+/* Mobile: green bar + large icon half on bar, half on white gap below */
+.cards > ul > li {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  padding-bottom: min(10%, calc(var(--cards-image-max-size-mobile) / 2));
+  border: none;
+  background: transparent;
+  box-shadow: none;
 }
 
-.cards .cards-card-body { /* @boilerplate */
-  margin: var(--cards-card-body-margin); /* @boilerplate */
+.cards > ul > li:hover .cards-card-body,
+.cards > ul > li:focus-within .cards-card-body {
+  background-color: var(--cards-card-hover-background);
 }
 
-.cards .cards-card-image { /* @boilerplate */
-  line-height: 0; /* @boilerplate */
+.cards .cards-card-body {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: var(--cards-card-height-mobile);
+  box-sizing: border-box;
+  margin: 0;
+  padding: var(--cards-card-body-padding-mobile);
+  background-color: var(--cards-card-background-mobile);
+  border-radius: var(--cards-card-border-radius);
+  transition: background-color 0.2s ease;
 }
 
-.cards > ul > li img { /* @boilerplate */
-  aspect-ratio: var(--cards-image-aspect-ratio); /* @boilerplate */
-  object-fit: var(--cards-image-object-fit); /* @boilerplate */
+.cards .cards-card-body p {
+  margin: 0;
+  font-size: var(--cards-text-font-size);
+  font-weight: unset;
+  line-height: 1.2;
+  text-decoration: underline;
+  color: var(--cards-text-color-mobile);
+  transition: color 0.2s ease;
+}
+
+.cards .cards-card-body a {
+  color: inherit;
+  text-decoration: underline;
+  font-weight: inherit;
+}
+
+.cards .cards-card-body a:hover {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.cards > ul > li:hover .cards-card-body p,
+.cards > ul > li:hover .cards-card-body a,
+.cards > ul > li:focus-within .cards-card-body p,
+.cards > ul > li:focus-within .cards-card-body a {
+  color: var(--cards-text-color-hover);
+}
+
+.cards .cards-card-image {
+  position: absolute;
+  top: var(--cards-card-height-mobile);
+  right: var(--cards-image-right-mobile);
+  width: var(--cards-image-width-mobile);
+  max-width: var(--cards-image-max-size-mobile);
+  z-index: 1;
+  transform: translateY(-50%);
+  line-height: 0;
+}
+
+.cards .cards-card-image picture {
+  display: block;
+  width: 100%;
+}
+
+.cards > ul > li img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+@media (width >= 768px) {
+  /* Break out of narrow section wrapper; align to original ~1369px content width */
+  .cards {
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(50% - 50vw);
+    padding-inline: max(
+      var(--cards-section-padding),
+      calc((100vw - var(--cards-max-width)) / 2)
+    );
+    box-sizing: border-box;
+  }
+
+  .cards > ul {
+    grid-template-columns: repeat(var(--cards-columns-tablet), 1fr);
+    gap: var(--cards-grid-gap-desktop);
+    width: 100%;
+  }
+
+  .cards > ul > li {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    position: static;
+    width: 100%;
+    height: var(--cards-card-height-desktop);
+    padding: var(--cards-card-padding-tablet);
+    padding-bottom: 0;
+    border: none;
+    background-color: var(--cards-card-background);
+    border-radius: var(--cards-card-border-radius);
+    box-shadow: var(--cards-card-shadow);
+    transition: background-color 0.2s ease;
+  }
+
+  .cards > ul > li:hover,
+  .cards > ul > li:focus-within {
+    background-color: var(--cards-card-hover-background);
+  }
+
+  .cards > ul > li:hover .cards-card-body,
+  .cards > ul > li:focus-within .cards-card-body {
+    background-color: transparent;
+  }
+
+  .cards .cards-card-body {
+    order: 1;
+    flex: 1 1 auto;
+    width: auto;
+    height: auto;
+    min-width: 0;
+    padding: var(--cards-card-body-padding-desktop);
+    background-color: transparent;
+    border-radius: 0;
+    align-items: flex-start;
+  }
+
+  .cards .cards-card-body p,
+  .cards .cards-card-body a {
+    color: var(--cards-text-color);
+  }
+
+  /* Hover white text — inherited from mobile base rule above */
+
+  .cards .cards-card-image {
+    position: static;
+    order: 2;
+    flex: 0 0 var(--cards-image-width-desktop);
+    width: var(--cards-image-width-desktop);
+    max-width: var(--cards-image-max-size-desktop);
+    margin-right: var(--cards-image-margin-right-tablet);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    transform: translateY(var(--cards-image-offset-y-desktop));
+    z-index: auto;
+  }
 }
 
 @media (width >= 992px) {
+  .cards > ul {
+    grid-template-columns: repeat(var(--cards-columns-desktop), 1fr);
+  }
+
+  .cards > ul > li {
+    padding: var(--cards-card-padding-desktop);
+  }
+
+  .cards .cards-card-image {
+    margin-right: var(--cards-image-margin-right-desktop);
+  }
+
   .cards.cards-2-cols > ul {
     grid-template-columns: repeat(2, 1fr);
     justify-items: center;
@@ -38,12 +195,12 @@
     justify-items: center;
   }
 
-  /* 200%/300% resolves against the 50%/33% grid cell to match the 4-column card width */
+  /* Match 4-column card width when only 2 or 3 cards are authored */
   .cards.cards-2-cols > ul > li {
-    width: calc((200% - 3 * var(--cards-grid-gap)) / 4);
+    width: calc((200% - 3 * var(--cards-grid-gap-desktop)) / 4);
   }
 
   .cards.cards-3-cols > ul > li {
-    width: calc((300% - 3 * var(--cards-grid-gap)) / 4);
+    width: calc((300% - 3 * var(--cards-grid-gap-desktop)) / 4);
   }
 }

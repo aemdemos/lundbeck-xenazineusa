@@ -1,11 +1,32 @@
-/* cards design tokens — Tier 2: reference global semantics; @boilerplate marks unresolved literals */
-:root { /* @boilerplate */
-  --cards-grid-min-width: 257px; /* @boilerplate */
-  --cards-grid-gap: var(--spacing-m, 24px); /* @boilerplate */
-  --cards-card-border-width: var(--border-width-s); /* @boilerplate */
-  --cards-card-border-color: var(--border-color); /* @boilerplate */
-  --cards-card-background: var(--color-surface); /* @boilerplate */
-  --cards-card-body-margin: var(--spacing-s); /* @boilerplate */
-  --cards-image-aspect-ratio: 4 / 3; /* @boilerplate */
-  --cards-image-object-fit: cover; /* @boilerplate */
+/* cards design tokens — Xenazine (xenazineusa.com) */
+:root {
+  --cards-grid-gap-mobile: 2px;
+  --cards-grid-gap-desktop: 15px;
+  --cards-columns-tablet: 3;
+  --cards-columns-desktop: 4;
+  --cards-max-width: 1369px;
+  --cards-section-padding: 15px;
+  --cards-card-background: #fff;
+  --cards-card-background-mobile: #78a22f;
+  --cards-card-border-radius: 10px;
+  --cards-card-shadow: 0 0 20px #d5d5d5;
+  --cards-card-height-mobile: 70px;
+  --cards-card-height-desktop: 115px;
+  --cards-card-body-padding-mobile: 0 calc(20% + 44px) 0 20px;
+  --cards-card-body-padding-desktop: 30px 0 0 0;
+  --cards-card-padding-tablet: 0 5px 0 18px;
+  --cards-card-padding-desktop: 0 5px 0 18px;
+  --cards-card-hover-background: #79a43e;
+  --cards-text-color: #444;
+  --cards-text-color-mobile: #444;
+  --cards-text-color-hover: #fff;
+  --cards-text-font-size: 15px;
+  --cards-image-width-mobile: 20%;
+  --cards-image-max-size-mobile: 115px;
+  --cards-image-right-mobile: 20px;
+  --cards-image-width-desktop: 30%;
+  --cards-image-max-size-desktop: 85px;
+  --cards-image-offset-y-desktop: -8px;
+  --cards-image-margin-right-tablet: 5px;
+  --cards-image-margin-right-desktop: 5px;
 }
