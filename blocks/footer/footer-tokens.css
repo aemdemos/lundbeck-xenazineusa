@@ -49,7 +49,7 @@
   --footer-max-width: none; /* xenazine: content is full-bleed (text hard-left, logo hard-right); only a 15px edge gutter, not a centered 1140px container */
   --footer-background: #d4d5d5; /* xenazine: full-bleed gray footer band (.footerBg on live site) */
   --footer-text-color: #454545; /* xenazine grey body text */
-  --footer-font-family: "Avenir LT W01_65 Medium", avenir, "Century Gothic", sans-serif; /* xenazine: no Avenir webfont bundled — degrades to sans-serif */
+  --footer-font-family: avenir-medium, arial, sans-serif;
   --footer-font-size: 14px; /* xenazine base footer text */
 
   /* ---- link section --------------------------------------------------
@@ -152,6 +152,10 @@
    equal-specificity rule here would lose on source order. */
 footer .footer .columns-container .columns p {
   text-align: left;
+
+  a {
+    font-family: avenir-light, arial, sans-serif;
+  }
 }
 
 /* xenazine: vertical padding for the gray footer band. The live .footerBg

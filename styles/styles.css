@@ -60,8 +60,8 @@
   --section-padding: 24px;
   
   /* fonts */
-  --body-font-family: proxima-nova, proxima-nova-fallback, sans-serif; /* @libs */
-  --heading-font-family: proxima-nova, proxima-nova-fallback, sans-serif; /* @libs */
+  --body-font-family: avenir, avenir-fallback, sans-serif; /* @libs */
+  --heading-font-family: avenir, avenir-fallback, sans-serif; /* @libs */
   --body-line-height: 1.4; /* @libs */
   --heading-font-weight: 800; /* @libs */
   --heading-line-height: 1.2; /* @libs */
@@ -70,8 +70,8 @@
   --block-margin-bottom: 0.25em; /* @libs */
 
   /* body sizes */
-  --body-font-size-m: 24px; /* @libs */
-  --body-font-size-ms: 18px; /* @libs */
+  --body-font-size-l: 24px; /* @libs */
+  --body-font-size-m: 18px; /* @libs */
   --body-font-size-s: 16px; /* @libs */
   --body-font-size-xs: 14px; /* @libs */
   --body-font-size-xxs: 10px;
@@ -162,14 +162,14 @@
 
 /* fallback font for proxima-nova */
 @font-face { /* @libs */
-  font-family: proxima-nova-fallback; /* @libs */
+  font-family: avenir-fallback; /* @libs */
   font-weight: 400; /* @libs */
   size-adjust: 98%; /* @libs */
   src: local('Arial'); /* @libs */
 }
 
 @font-face { /* @libs */
-  font-family: proxima-nova-fallback; /* @libs */
+  font-family: avenir-fallback; /* @libs */
   font-weight: 700; /* @libs */
   size-adjust: 98%; /* @libs */
   src: local('Arial Bold'), local('Arial-BoldMT'), local('Arial'); /* @libs */
@@ -222,13 +222,12 @@ h6 { /* @libs */
   font-weight: var(--heading-font-weight); /* @libs */
   line-height: var(--heading-line-height); /* @libs */
   scroll-margin: 40px; /* @libs */
-  color: var(--text-color); /* @libs */
 }
 
 h1 { /* @libs */
   font-size: var(--heading-font-size-xxl); /* @libs */
   line-height: 1.125; /* @libs */
-  color: var(--brand-teal); /* @libs */
+  color: var(--text-color); /* @libs */
   margin-top: 0; /* @libs */
   max-width: var(--h1-max-width); /* @libs */
 }
@@ -236,28 +235,27 @@ h1 { /* @libs */
 h2 { /* @libs */
   font-size: var(--heading-font-size-xl); /* @libs */
   line-height: var(--heading-line-height); /* @libs */
-  color: var(--brand-teal); /* @libs */
 }
 
 h3 { /* @libs */
   font-size: var(--heading-font-size-l); /* @libs */
   font-weight: var(--font-weight-bold); /* @libs */
   line-height: 1.6; /* @libs */
-  color: var(--text-color); /* @libs */
   margin-bottom: 0; /* @libs */
 }
 
 h4 { /* @libs */
-  font-size: var(--heading-font-size-m); /* @libs */
+  font-size: var(--heading-font-size-l);
   font-weight: var(--font-weight-bold); /* @libs */
-  line-height: 1.5; /* @libs */
+  line-height: 22px;
+  text-align: center;
 }
 
 h5 { /* @libs */
   font-size: var(--heading-font-size-s); /* @libs */
   font-weight: var(--font-weight-bold); /* @libs */
   line-height: 1.22; /* @libs */
-  color: var(--brand-teal-muted); /* @libs */
+  text-align: center;
 }
 
 h6 { /* @libs */
