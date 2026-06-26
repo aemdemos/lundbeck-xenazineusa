@@ -1,6 +1,315 @@
-/* footer design tokens */
+/* =====================================================================
+   FOOTER DESIGN TOKENS — site-specific extension layer
+   ---------------------------------------------------------------------
+   Reference site: https://www.vyepti.com/   (libs renders this by default)
+
+   HOW TO ADAPT FOR A NEW SITE (e.g. onfi.com, xenazineusa.com, sabril.net):
+   This is the ONLY file you should need to edit. footer.css holds the
+   shared structure and reads every value below as a CSS custom property.
+   Override the tokens here — and, if a site needs a rule that the shared
+   structure doesn't cover, add the extra selector at the bottom of this
+   file (the "site-specific overrides" section). Do NOT edit footer.css.
+
+   Every CSS line below carries an "@boilerplate" marker comment. When you
+   clone this lib to start a new site, that marker tells you the line came
+   from the boilerplate: keep it if you leave the value untouched, and
+   remove the marker on any line whose value you change for the new site
+   (so the diff against the boilerplate is obvious).
+
+   The five Lundbeck surfaces fall into four footer "shapes":
+     • Vyepti     — teal link BAND on top, then legal + phone pill +
+                    social icons + Lundbeck logo (the richest variant).
+     • Vyepti HCP — top divider rule, Lundbeck logo + inline bold
+                    muted-teal links, then legal copy below. No band,
+                    no phone, no social. (open-sans typeface.)
+     • Onfi       — gray panel, teal inline links, legal + logo. No band,
+                    no phone, no social.
+     • Xenazine   — transparent, 2-col legal + logo. No band/phone/social.
+     • Sabril     — transparent, logo + purple inline links.
+   Switch shapes purely by changing token values below + which content the
+   author places in the DA document (phone/social are content-driven, so
+   omitting them in the doc simply leaves those slots empty).
+
+   Per-site quick-reference (values harvested from the live sites):
+     ┌────────────┬─────────────┬───────────────┬──────────────┬────────────┐
+     │            │ link color  │ linkbar bg    │ legal color  │ font       │
+     ├────────────┼─────────────┼───────────────┼──────────────┼────────────┤
+     │ Vyepti     │ #fff        │ #046183 teal  │ #484848 14px │ proxima    │
+     │ Vyepti HCP │ #41748d     │ transparent   │ #484848 14px │ open-sans  │
+     │ Onfi       │ #008c99     │ #d4d5d5 gray  │ #484848 16px │ avenir     │
+     │ Xenazine   │ #454545     │ transparent   │ #454545 14px │ avenir     │
+     │ Sabril     │ #652d89     │ transparent   │ #000    15px │ arial      │
+     └────────────┴─────────────┴───────────────┴──────────────┴────────────┘
+   ===================================================================== */
+
 :root { /* @boilerplate */
-  --footer-max-width: var(--max-width-site); /* @boilerplate */
-  --footer-padding: var(--spacing-xl) var(--spacing-m) var(--spacing-m); /* @boilerplate */
-  --footer-padding-desktop: var(--spacing-xl) var(--spacing-l) var(--spacing-m); /* @boilerplate */
+  /* ---- global frame --------------------------------------------------
+     --footer-background  : body background behind the legal/logo section.
+     --footer-font-family : base footer font (override per brand font). */
+  --footer-max-width: none; /* xenazine: content is full-bleed (text hard-left, logo hard-right); only a 15px edge gutter, not a centered 1140px container */
+  --footer-background: #d4d5d5; /* xenazine: full-bleed gray footer band (.footerBg on live site) */
+  --footer-text-color: #454545; /* xenazine grey body text */
+  --footer-font-family: "Avenir LT W01_65 Medium", avenir, "Century Gothic", sans-serif; /* xenazine: no Avenir webfont bundled — degrades to sans-serif */
+  --footer-font-size: 14px; /* xenazine base footer text */
+
+  /* ---- link section --------------------------------------------------
+     Vyepti renders this as a full-width coloured BAND (set
+     --footer-linkbar-background to a brand colour). For sites with a plain
+     inline link list (Onfi/Xenazine/Sabril), set the band background to
+     `transparent`, drop the band padding, and set the link color to the
+     brand link colour instead of #fff. */
+  --footer-linkbar-background: transparent; /* xenazine: plain inline list, no band */
+  --footer-linkbar-padding: 0; /* xenazine: no band, no outer padding */
+  --footer-linkbar-inner-padding: 0 15px; /* gutter inside the max-width wrapper */ /* @boilerplate */
+  --footer-link-text-align: left; /* xenazine: left-aligned link list */
+  --footer-link-color: #454545; /* xenazine grey links */
+  --footer-link-hover-color: #454545; /* xenazine: colour unchanged on hover */
+  --footer-link-decoration: underline; /* xenazine links are underlined */
+  --footer-link-hover-decoration: underline; /* xenazine: stays underlined */
+  --footer-link-font-size: 14px; /* mobile */ /* @boilerplate */
+  --footer-link-font-size-desktop: 14px; /* xenazine: 14px at all widths */
+  --footer-link-font-weight: 400; /* xenazine: regular weight */
+  --footer-link-line-height: 20px; /* xenazine */
+  --footer-link-gap: 40px; /* horizontal space between links (desktop row) */ /* @boilerplate */
+  --footer-link-mobile-gap: 20px; /* xenazine: 20px vertical gap when stacked */
+  --footer-transition: 0.2s ease; /* @boilerplate */
+
+  /* ---- body section (legal + logo) ---------------------------------- */
+  --footer-body-padding: 40px 15px 28px; /* @boilerplate */
+  --footer-body-padding-mobile: 24px 15px 28px; /* @boilerplate */
+
+  /* legal column (column 1) */
+  --footer-legal-color: #454545; /* xenazine grey legal copy */
+  --footer-legal-font-size: 14px; /* @boilerplate */
+  --footer-legal-line-height: 20px; /* @boilerplate */
+  --footer-legal-margin-bottom: 16px; /* @boilerplate */
+  --footer-legal-width: 58.3333%; /* desktop 2-col split: legal vs right col */ /* @boilerplate */
+
+  /* right column (column 2) — xenazine: logo only, no phone/social */
+  --footer-right-width: 41.6667%; /* @boilerplate */
+
+  /* ---- "For assistance, call" label (Vyepti only) ------------------- */
+  --footer-assist-color: #484848; /* @boilerplate */
+  --footer-assist-font-size: 17px; /* desktop */ /* @boilerplate */
+  --footer-assist-font-size-mobile: 14px; /* @boilerplate */
+  --footer-assist-line-height: 21px; /* @boilerplate */
+  --footer-assist-font-weight: 700; /* @boilerplate */
+  --footer-assist-margin-right: 11px; /* gap to the phone pill (desktop) */ /* @boilerplate */
+  --footer-mobile-assist-gap: 12px; /* gap between label and pill (mobile) */ /* @boilerplate */
+  --footer-assist-mobile-margin-bottom: 15px; /* gap above legal copy (mobile) */ /* @boilerplate */
+
+  /* ---- phone pill (Vyepti only) ------------------------------------- */
+  --footer-phone-background: #bf2c58; /* @boilerplate */
+  --footer-phone-hover-background: var(--brand-rose-dark); /* #9a2346 */ /* @boilerplate */
+  --footer-phone-color: #fff; /* @boilerplate */
+  --footer-phone-font-size: 16px; /* @boilerplate */
+  --footer-phone-font-weight: 700; /* @boilerplate */
+  --footer-phone-line-height: 22px; /* @boilerplate */
+  --footer-phone-padding: 20px 21px 20px 45px; /* @boilerplate */
+  --footer-phone-radius: 30px; /* @boilerplate */
+  --footer-phone-icon-size: 16px 19px; /* @boilerplate */
+  --footer-phone-icon-position: 19px 24px; /* @boilerplate */
+
+  /* inline phone-handset glyph (white), cropped tight to a 16x19 box so it
+     fills the icon area. Swap the path/colour for a different brand icon. */
+  --footer-phone-icon-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 19" fill="white"><path d="M3.6 0c-.5 0-1 .2-1.5.5C1 1.3 0 2.6 0 4.2c0 1.4.4 3 1.2 4.7.8 1.7 2 3.4 3.5 5 1.6 1.6 3.3 2.7 5 3.5 1.7.8 3.3 1.2 4.7 1.2h.1c.4 0 .8-.2 1.1-.5.3-.3.4-.7.4-1.1v-2.6c0-.7-.5-1.3-1.2-1.5l-3-.7c-.6-.1-1.2 0-1.6.5l-1 1c-1-.6-2-1.3-2.8-2.2-.9-.8-1.6-1.8-2.2-2.8l1-1c.5-.4.6-1 .5-1.6l-.7-3C4.8.5 4.2 0 3.6 0Z"/></svg>'); /* @boilerplate */
+
+  /* ---- social icons + company logo (column 2) ----------------------- */
+  --footer-social-row-margin-top: 0; /* xenazine: logo-only right column, no social row — logo top aligns with link row (live site) */
+  --footer-social-icon-width: 27px; /* @boilerplate */
+  --footer-social-icon-gap: 13px; /* edge gap between social icons */ /* @boilerplate */
+  --footer-logo-width: 200px; /* xenazine: live Lundbeck+star logo renders 200px wide */
+
+  /* logo sits 27px from the last social icon; the icon already emits a 13px
+     right margin, so this adds the remaining 14px */
+  --footer-logo-margin-left: 14px; /* @boilerplate */
+} /* @boilerplate */
+
+/* =====================================================================
+   SITE-SPECIFIC OVERRIDES (extension layer) — XENAZINE
+   ---------------------------------------------------------------------
+   Xenazine shape (https://www.xenazineusa.com/): transparent footer, no
+   coloured band, no phone pill, no social icons. A left-aligned inline
+   list of legal links sits above the legal copy, with the Lundbeck logo
+   in the right column. All grey (#454545), Avenir, 14px. The token block
+   above already configures the colours/typography/no-band layout; the
+   rules below are the few things the shared footer.css doesn't tokenise.
+
+   NOTE FOR LIBS TEAM — the legal-copy text-align is NOT tokenised in
+   footer.css: it is hard-coded `center` on mobile (footer.css line ~94)
+   and switched to `left` only at the >=768px breakpoint (line ~201).
+   Xenazine (like Onfi/Sabril) is left-aligned at ALL widths, so we have
+   to re-assert `text-align: left` on mobile here. Consider adding a
+   `--footer-legal-text-align` token to footer.css so plain-list sites
+   needn't override this selector. (Vyepti is centre-on-mobile, so the
+   current default is correct for the reference site.)
+   ===================================================================== */
+
+/* xenazine: legal copy is left-aligned on mobile too (matches live site).
+   Extra .columns-container class lifts specificity above footer.css's
+   `footer .footer .columns p { text-align: center }` — required because
+   footer-tokens.css is @imported at the TOP of footer.css, so an
+   equal-specificity rule here would lose on source order. */
+footer .footer .columns-container .columns p {
+  text-align: left;
+}
+
+/* xenazine: vertical padding for the gray footer band. The live .footerBg
+   band has 30px top/bottom padding around its content. footer.css sets
+   `padding: var(--footer-body-padding)` on .columns-container, but in this
+   project the rendered padding collapses to 0 (the columns-container is
+   also a `.section`, whose own reset wins over footer.css's var()-based
+   shorthand because footer-tokens.css is @imported at the TOP of footer.css
+   — so a plain override here loses on source order despite equal/greater
+   specificity). `!important` is the reliable way to re-assert the band's
+   breathing room from this token layer without editing footer.css.
+   Horizontal gutter is handled by the .columns-wrapper max-width margins.
+   NOTE FOR LIBS TEAM: consider a `--footer-body-padding` that survives the
+   `.section` reset (e.g. apply padding to .footer .columns-wrapper instead
+   of the .section.columns-container) so sites needn't use !important. */
+footer .footer .section.columns-container {
+  padding-top: 30px !important;
+  padding-bottom: 30px !important;
+}
+
+/* xenazine: the footer content is FULL-BLEED on the live site — text sits
+   hard-left and the logo hard-right, with only a ~15px edge gutter (not the
+   centered 1140px container the boilerplate uses). --footer-max-width: none
+   (above) lets the content stretch; this adds the 15px horizontal gutter by
+   neutralising the `margin-inline: auto` centering footer.css applies to the
+   .columns-wrapper. */
+footer .footer .section.columns-container > * {
+  margin-inline: 0;
+  padding-inline: 15px;
+}
+
+/* xenazine: the DA footer authors a `columns (divider)` block, so the
+   shared blocks/columns/columns.css divider variant paints a 1px vertical
+   rule between the legal column and the logo column using
+   --columns-divider-color (#7ebcc6 — a Vyepti teal default). The live
+   xenazine footer DOES show this divider, but as a WHITE 1px rule (it sits
+   on the gray #d4d5d5 band). Recolor it white here. We can't just override
+   --columns-divider-color globally (that token is shared by every columns
+   block on the site), so re-set the border colour scoped to the footer. */
+@media (width >= 600px) {
+  footer .footer .columns.divider.columns-2-cols > div > :nth-child(2) {
+    border-inline-start-color: #fff;
+  }
+
+  /* xenazine: the boilerplate columns use box-sizing: content-box with
+     flex-basis 58.33% / 41.67% PLUS --columns-divider-spacing (32px) of
+     inline padding on each column. With content-box that padding is ADDED
+     on top of the percentages, so the two columns total 100% + 64px and
+     overflow the row — pushing the logo past the right edge. The live site
+     uses border-box columns (padding folded into the percentage). Switch to
+     border-box here so the columns fit and the logo lands hard-right. */
+  footer .footer .columns-container .columns.columns-2-cols > div > :first-child,
+  footer .footer .columns-container .columns.columns-2-cols > div > :nth-child(2) {
+    box-sizing: border-box;
+  }
+
+  /* xenazine: the white divider spans the FULL content height on the live
+     site (top of the link row to the bottom of the legal copy). footer.css
+     forces `align-items: flex-start` on the row at >=768px, which lets the
+     logo column (and its divider border) collapse to just the logo's
+     height — making the rule look short. Re-stretch the row so the divider
+     runs full height. Extra .columns-container raises specificity above
+     footer.css's rule (footer-tokens.css is @imported at the TOP of
+     footer.css, so equal specificity would lose on source order). */
+  footer .footer .columns-container .columns.columns-2-cols > div {
+    align-items: stretch;
+  }
+
+  /* keep the logo pinned to the TOP of its now full-height column */
+  footer .footer .columns-container .columns.columns-2-cols > div > :nth-child(2) {
+    align-items: flex-start;
+  }
+}
+
+/* xenazine: the logo sits at the TOP of the right column on the live site,
+   not vertically centered. footer.css centers it via
+   `align-items: center` on the right column (a Vyepti layout default where
+   the column also holds a phone pill + social row). Xenazine's right column
+   is logo-only, so align it to the top to match. Scoped to footer. */
+@media (width >= 768px) {
+  footer .footer .columns-container .columns.columns-2-cols > div > :nth-child(2) {
+    align-items: flex-start;
+  }
+}
+
+/* xenazine: on the live site the three legal links (Contact Us / Terms of
+   Use / Privacy Policy) are distributed as EQUAL THIRDS across the legal
+   column (each link left-aligned within its own 33.3% slot), not packed
+   together with a fixed gap. footer.css lays the links out as inline-block
+   with --footer-link-gap (a Vyepti single-row treatment). Since our DA
+   authors links + legal copy in one column, target only the link
+   paragraphs (p:has(a)) and float them into thirds; the legal paragraphs
+   (no link) clear below. Desktop only; scoped to the footer. */
+@media (width >= 768px) {
+  footer .footer .columns-container .columns.columns-2-cols > div > :first-child > p:has(a) {
+    float: left;
+    width: 33.333%;
+    margin-right: 0;
+  }
+
+  /* legal copy paragraphs (no link) each sit on their OWN line below the
+     link row. footer.css renders footer paragraphs as `display: inline-block`
+     (a Vyepti single-row links treatment); on wide screens the ©2024 line
+     doesn't fill the column, so the following inline-block (TBZ-B-100001v4)
+     flows up beside it instead of onto its own line. Forcing `display: block`
+     makes each legal paragraph a full-width line — matching the DA document
+     and the live site, where TBZ-B is always on a separate line. `clear: left`
+     drops the block below the floated link row. */
+  footer .footer .columns-container .columns.columns-2-cols > div > :first-child > p:not(:has(a)) {
+    display: block;
+    clear: left;
+  }
+}
+
+/* xenazine: desktop (>=768px) — keep the 2-column flex layout with the logo
+   on the right. columns.css defaults to flex-direction:column + order:0 on
+   .columns-img-col (image on top); override scoped to the footer so DOM order
+   places the text column left and the logo right. */
+@media (width >= 768px) {
+  footer .footer .columns > div {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  footer .footer .columns > div > div:first-child {
+    flex: 0 0 58.3333%;
+    box-sizing: border-box;
+  }
+
+  footer .footer .columns > div > .columns-img-col {
+    flex: 0 0 41.6667%;
+    box-sizing: border-box;
+    order: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+  }
+}
+
+/* xenazine: mobile (<768px) — pull the logo out of column flow so the legal
+   copy can span full width beneath it. The columns flex container keeps its
+   vertical stacking; .columns-img-col is taken out of flow (position:absolute)
+   and pinned to the top-right corner. Link paragraphs are right-padded to
+   leave the logo's footprint clear; legal copy below them has no padding, so
+   it stretches the full column width. */
+@media (width < 768px) {
+  footer .footer .columns > div {
+    position: relative;
+  }
+
+  footer .footer .columns > div > .columns-img-col {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  /* indent only the link paragraphs — legal text below is unrestricted */
+  footer .footer .columns > div > div:first-child > p:has(> a:only-child) {
+    padding-right: calc(var(--footer-logo-width) + 10px);
+  }
 }
