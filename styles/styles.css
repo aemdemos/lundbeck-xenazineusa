@@ -85,7 +85,7 @@
   --heading-font-size-xs: 16px; /* @libs */
 
   /* layout */
-  --max-width-site: 1140px; /* @libs */
+  --max-width-site: 100%; /* @libs */
   --section-padding-vertical: 0;
   --section-padding-horizontal: 2%;
   --icon-size: 24px; /* @libs */
@@ -95,7 +95,7 @@
   --nav-height: 200px; /* @libs */
   --nav-brand-row-height-mobile: 97px; /* @libs */
   --breadcrumbs-height: 34px; /* @libs */
-  --header-height: var(--nav-height); /* @libs */
+  --header-height: 0;
 
   /* fixed-width / code */
   --fixed-font-family: menlo, consolas, monospace; /* @libs */
@@ -501,6 +501,22 @@ main .icon.icon-bullet { /* @libs */
   }
 }
 
+.right {
+  text-align: right;
+
+  &.columns > div > div {
+    justify-content: right;
+  }
+}
+
+.left {
+  text-align: left;
+
+  &.columns > div > div {
+    justify-content: left;
+  }
+}
+
 /* sections */
 main > .section { /* @libs */
   margin: 0 10px;
@@ -615,6 +631,10 @@ main .section.dark a:hover { /* @libs */
   color: var(--brand-teal-light); /* @libs */
 }
 
+main .section.dark img {
+  margin: auto;
+}
+
 main .section.dark a.button.primary,
 main .section.dark a.button.accent,
 main .section.dark a.button:not(.secondary) { /* @libs */
@@ -726,8 +746,22 @@ main .section.stats-callout h4 {
     }
 
     /* section metadata - dark (teal) */
-main .section.dark { /* @libs */
+main .section.dark {
   font-size: var(--body-font-size-xs);
+  min-height: 125px;
+  padding: 1% 4.5% 2% 5px;
+}
+
+main .section.dark img {
+  margin: unset;
+}
+
+main .section.dark .columns > div {
+  align-items: unset;
+}
+
+main .section.dark .columns-img-col {
+  max-width: 25%
 }
 
   }
@@ -736,10 +770,6 @@ main .section.dark { /* @libs */
   body[data-breadcrumbs] { /* @libs */
     --header-height: calc(var(--nav-height) + var(--breadcrumbs-height)); /* @libs */
   }
-  
-  header { /* @libs */
-    height: calc(var(--nav-height) + 23px); /* @libs */
-}
 
 main > .section > div { /* @libs */
   max-width: var(--max-width-site); /* @libs */
@@ -757,14 +787,27 @@ main .section.stats-callout > div:not(.bg-image) {
   main .section.accent > div { /* @libs */
     gap: 30px; /* @libs */
   }
+
+  main .section.dark { /* @libs */
+    font-size: var(--body-font-size-xs);
+    min-height: 125px;
+    padding: 1% 4.5% 1% 95px;
+  }
+
+  main .section.dark .columns-wrapper {
+    margin: unset;
+    max-width: unset;
+  }
 }
 
 @media (width >= 1200px) {
-  header { /* @libs */
-    height: var(--nav-height); /* @libs */
-  }
-
   main .section.stats-callout > div:not(.bg-image) {
     max-width: 1140px;
+  }
+
+  main .section.dark { /* @libs */
+    font-size: var(--body-font-size-xs);
+    min-height: 125px;
+    padding: 1.5% 15% 1% 95px;
   }
 }
