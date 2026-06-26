@@ -46,8 +46,8 @@
   /* ---- global frame --------------------------------------------------
      --footer-background  : body background behind the legal/logo section.
      --footer-font-family : base footer font (override per brand font). */
-  --footer-max-width: var(--max-width-site); /* 1140px content width */ /* @boilerplate */
-  --footer-background: var(--background-color); /* white body */ /* @boilerplate */
+  --footer-max-width: none; /* xenazine: content is full-bleed (text hard-left, logo hard-right); only a 15px edge gutter, not a centered 1140px container */
+  --footer-background: #d4d5d5; /* xenazine: full-bleed gray footer band (.footerBg on live site) */
   --footer-text-color: #454545; /* xenazine grey body text */
   --footer-font-family: "Avenir LT W01_65 Medium", avenir, "Century Gothic", sans-serif; /* xenazine: no Avenir webfont bundled — degrades to sans-serif */
   --footer-font-size: 14px; /* xenazine base footer text */
@@ -115,10 +115,10 @@
   --footer-phone-icon-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 19" fill="white"><path d="M3.6 0c-.5 0-1 .2-1.5.5C1 1.3 0 2.6 0 4.2c0 1.4.4 3 1.2 4.7.8 1.7 2 3.4 3.5 5 1.6 1.6 3.3 2.7 5 3.5 1.7.8 3.3 1.2 4.7 1.2h.1c.4 0 .8-.2 1.1-.5.3-.3.4-.7.4-1.1v-2.6c0-.7-.5-1.3-1.2-1.5l-3-.7c-.6-.1-1.2 0-1.6.5l-1 1c-1-.6-2-1.3-2.8-2.2-.9-.8-1.6-1.8-2.2-2.8l1-1c.5-.4.6-1 .5-1.6l-.7-3C4.8.5 4.2 0 3.6 0Z"/></svg>'); /* @boilerplate */
 
   /* ---- social icons + company logo (column 2) ----------------------- */
-  --footer-social-row-margin-top: 27px; /* space above the social/logo row */ /* @boilerplate */
+  --footer-social-row-margin-top: 0; /* xenazine: logo-only right column, no social row — logo top aligns with link row (live site) */
   --footer-social-icon-width: 27px; /* @boilerplate */
   --footer-social-icon-gap: 13px; /* edge gap between social icons */ /* @boilerplate */
-  --footer-logo-width: 160px; /* Lundbeck logo width (Onfi uses ~114px) */ /* @boilerplate */
+  --footer-logo-width: 200px; /* xenazine: live Lundbeck+star logo renders 200px wide */
 
   /* logo sits 27px from the last social icon; the icon already emits a 13px
      right margin, so this adds the remaining 14px */
@@ -153,3 +153,121 @@
 footer .footer .columns-container .columns p {
   text-align: left;
 }
+
+/* xenazine: vertical padding for the gray footer band. The live .footerBg
+   band has 30px top/bottom padding around its content. footer.css sets
+   `padding: var(--footer-body-padding)` on .columns-container, but in this
+   project the rendered padding collapses to 0 (the columns-container is
+   also a `.section`, whose own reset wins over footer.css's var()-based
+   shorthand because footer-tokens.css is @imported at the TOP of footer.css
+   — so a plain override here loses on source order despite equal/greater
+   specificity). `!important` is the reliable way to re-assert the band's
+   breathing room from this token layer without editing footer.css.
+   Horizontal gutter is handled by the .columns-wrapper max-width margins.
+   NOTE FOR LIBS TEAM: consider a `--footer-body-padding` that survives the
+   `.section` reset (e.g. apply padding to .footer .columns-wrapper instead
+   of the .section.columns-container) so sites needn't use !important. */
+footer .footer .section.columns-container {
+  padding-top: 30px !important;
+  padding-bottom: 30px !important;
+}
+
+/* xenazine: the footer content is FULL-BLEED on the live site — text sits
+   hard-left and the logo hard-right, with only a ~15px edge gutter (not the
+   centered 1140px container the boilerplate uses). --footer-max-width: none
+   (above) lets the content stretch; this adds the 15px horizontal gutter by
+   neutralising the `margin-inline: auto` centering footer.css applies to the
+   .columns-wrapper. */
+footer .footer .section.columns-container > * {
+  margin-inline: 0;
+  padding-inline: 15px;
+}
+
+/* xenazine: the DA footer authors a `columns (divider)` block, so the
+   shared blocks/columns/columns.css divider variant paints a 1px vertical
+   rule between the legal column and the logo column using
+   --columns-divider-color (#7ebcc6 — a Vyepti teal default). The live
+   xenazine footer DOES show this divider, but as a WHITE 1px rule (it sits
+   on the gray #d4d5d5 band). Recolor it white here. We can't just override
+   --columns-divider-color globally (that token is shared by every columns
+   block on the site), so re-set the border colour scoped to the footer. */
+@media (width >= 600px) {
+  footer .footer .columns.divider.columns-2-cols > div > :nth-child(2) {
+    border-inline-start-color: #fff;
+  }
+
+  /* xenazine: the boilerplate columns use box-sizing: content-box with
+     flex-basis 58.33% / 41.67% PLUS --columns-divider-spacing (32px) of
+     inline padding on each column. With content-box that padding is ADDED
+     on top of the percentages, so the two columns total 100% + 64px and
+     overflow the row — pushing the logo past the right edge. The live site
+     uses border-box columns (padding folded into the percentage). Switch to
+     border-box here so the columns fit and the logo lands hard-right. */
+  footer .footer .columns-container .columns.columns-2-cols > div > :first-child,
+  footer .footer .columns-container .columns.columns-2-cols > div > :nth-child(2) {
+    box-sizing: border-box;
+  }
+
+  /* xenazine: the white divider spans the FULL content height on the live
+     site (top of the link row to the bottom of the legal copy). footer.css
+     forces `align-items: flex-start` on the row at >=768px, which lets the
+     logo column (and its divider border) collapse to just the logo's
+     height — making the rule look short. Re-stretch the row so the divider
+     runs full height. Extra .columns-container raises specificity above
+     footer.css's rule (footer-tokens.css is @imported at the TOP of
+     footer.css, so equal specificity would lose on source order). */
+  footer .footer .columns-container .columns.columns-2-cols > div {
+    align-items: stretch;
+  }
+
+  /* keep the logo pinned to the TOP of its now full-height column */
+  footer .footer .columns-container .columns.columns-2-cols > div > :nth-child(2) {
+    align-items: flex-start;
+  }
+}
+
+/* xenazine: the logo sits at the TOP of the right column on the live site,
+   not vertically centered. footer.css centers it via
+   `align-items: center` on the right column (a Vyepti layout default where
+   the column also holds a phone pill + social row). Xenazine's right column
+   is logo-only, so align it to the top to match. Scoped to footer. */
+@media (width >= 768px) {
+  footer .footer .columns-container .columns.columns-2-cols > div > :nth-child(2) {
+    align-items: flex-start;
+  }
+}
+
+/* xenazine: on the live site the three legal links (Contact Us / Terms of
+   Use / Privacy Policy) are distributed as EQUAL THIRDS across the legal
+   column (each link left-aligned within its own 33.3% slot), not packed
+   together with a fixed gap. footer.css lays the links out as inline-block
+   with --footer-link-gap (a Vyepti single-row treatment). Since our DA
+   authors links + legal copy in one column, target only the link
+   paragraphs (p:has(a)) and float them into thirds; the legal paragraphs
+   (no link) clear below. Desktop only; scoped to the footer. */
+@media (width >= 768px) {
+  footer .footer .columns-container .columns.columns-2-cols > div > :first-child > p:has(a) {
+    float: left;
+    width: 33.333%;
+    margin-right: 0;
+  }
+
+  footer .footer .columns-container .columns.columns-2-cols > div > :first-child > p:not(:has(a)) {
+    clear: left;
+  }
+}
+
+/* NOTE FOR LIBS TEAM — mobile layout divergence (not fixable via tokens):
+   On the live xenazine site the MOBILE footer is a 2-column layout (legal
+   links stacked on the LEFT, Lundbeck logo on the RIGHT, side-by-side),
+   with the legal copy full-width below. Our DA authors links + legal copy
+   together in column 1 and the logo alone in column 2, and the shared
+   blocks/columns/columns.css stacks all columns vertically below the
+   600px breakpoint (logo first via order:0, then the text column). That
+   produces logo-on-top, then links, then legal — a faithful, clean stack,
+   but not the live 2-col mobile arrangement.
+   Reproducing the live mobile layout would require either (a) changing the
+   DA block structure (splitting links into their own column), or (b) a
+   columns.css change to keep this footer 2-up on mobile — both are out of
+   scope here (no footer.css edits; DA structure unchanged). Flagging for
+   the libs team in case a `--columns-mobile-stack` opt-out token is wanted. */
