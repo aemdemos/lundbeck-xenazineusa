@@ -1,0 +1,40 @@
+/* cards design tokens — Tier 2: reference global semantics */
+:root {
+  --cards-grid-min-width: 240px;
+  --cards-grid-gap: 2px;
+  --cards-card-border-width: 0;
+  --cards-card-border-color: transparent;
+  --cards-card-background: var(--brand-secondary);
+  --cards-card-body-margin: 0;
+  --cards-image-aspect-ratio: 1 / 1;
+  --cards-image-object-fit: contain;
+  --cards-card-min-height: 70px;
+
+  /* HCP / homepage link cards: white rounded box with soft shadow,
+     blue label text on the left, green icon on the right */
+  --cards-card-radius: 10px;
+  --cards-card-shadow: 0;
+  --cards-card-padding: 0 20px;
+  --cards-icon-size: 80%;
+  --cards-card-gap: 16px;
+  --cards-label-color: #444;
+  --cards-label-hover-color: var(--brand-white);
+  --cards-label-font-size: 15px;
+  --cards-label-line-height: 1.3;
+
+  /* 4 cards per row on desktop; card box sized to match source (~277x130) */
+  --cards-columns: 4;
+  --cards-card-max-width: 277px;
+}
+
+@media (width >= 768px) {
+  :root {
+    --cards-card-shadow: 0 0 20px 0 #d5d5d5;
+    --cards-card-padding: 18px 5px 18px 18px;
+    --cards-grid-gap: 16px 26px;
+    --cards-card-min-height: 115px;
+    --cards-grid-min-width: 214px;
+    --cards-card-background: var(--brand-white);
+    --cards-icon-size: 100%;
+  }
+}

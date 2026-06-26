@@ -1,28 +1,11 @@
-/* cards design tokens — Tier 2: reference global semantics */
-:root {
-  --cards-grid-min-width: 240px;
-  --cards-grid-gap: var(--spacing-m, 24px);
-  --cards-card-border-width: 0;
-  --cards-card-border-color: transparent;
-  --cards-card-background: #fff;
-  --cards-card-body-margin: 0;
-  --cards-image-aspect-ratio: 1 / 1;
-  --cards-image-object-fit: contain;
-
-  /* HCP / homepage link cards: white rounded box with soft shadow,
-     blue label text on the left, green icon on the right */
-  --cards-card-radius: 10px;
-  --cards-card-shadow: 0 0 20px 0 #d5d5d5;
-  --cards-card-padding: 25px 18px;
-  --cards-icon-size: 78px;
-  --cards-card-gap: 16px;
-  --cards-label-color: #337ab7;
-  --cards-label-hover-color: #337ab7;
-  --cards-label-font-size: 17px;
-  --cards-label-line-height: 1.3;
-
-  /* 4 cards per row on desktop; card box sized to match source (~277x130) */
-  --cards-columns: 4;
-  --cards-card-max-width: 277px;
-  --cards-card-min-height: 110px;
+/* cards design tokens — Tier 2: reference global semantics; @boilerplate marks unresolved literals */
+:root { /* @boilerplate */
+  --cards-grid-min-width: 257px; /* @boilerplate */
+  --cards-grid-gap: var(--spacing-m, 24px); /* @boilerplate */
+  --cards-card-border-width: var(--border-width-s); /* @boilerplate */
+  --cards-card-border-color: var(--border-color); /* @boilerplate */
+  --cards-card-background: var(--color-surface); /* @boilerplate */
+  --cards-card-body-margin: var(--spacing-s); /* @boilerplate */
+  --cards-image-aspect-ratio: 4 / 3; /* @boilerplate */
+  --cards-image-object-fit: cover; /* @boilerplate */
 }

@@ -1,0 +1,87 @@
+@import url('./cards-nav-tokens.css');
+
+.cards-nav > ul {
+  list-style: none;
+  margin: 0;
+  padding: 5px 0;
+  display: grid;
+  gap: var(--cards-grid-gap);
+}
+
+/* each card is a white rounded box with a soft shadow; label left, icon right */
+.cards-nav > ul > li > a {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--cards-card-gap);
+  min-height: var(--cards-card-min-height);
+  padding: var(--cards-card-padding);
+  border: var(--cards-card-border-width) solid var(--cards-card-border-color);
+  border-radius: var(--cards-card-radius);
+  background-color: var(--cards-card-background);
+  box-shadow: var(--cards-card-shadow);
+}
+
+/* label fills the left, icon is fixed-size on the right */
+.cards-nav .cards-card-body {
+  order: 0;
+  flex: 1 1 auto;
+  margin: var(--cards-card-body-margin);
+}
+
+.cards-nav .cards-card-image {
+  order: 1;
+  flex: 0 0 20%;
+  line-height: 0;
+  height: 100%;
+}
+
+.cards-nav > ul > li img {
+  width: var(--cards-icon-size);
+  height: var(--cards-icon-size);
+  aspect-ratio: var(--cards-image-aspect-ratio);
+  object-fit: var(--cards-image-object-fit);
+}
+
+/* blue text labels, no underline (matches source link cards) */
+.cards-nav a {
+  color: var(--cards-label-color);
+  font-size: var(--cards-label-font-size);
+  line-height: var(--cards-label-line-height);
+}
+
+/* keep the label blue on hover (source cards do not change color);
+   overrides the global a:hover teal rule */
+.cards-nav a:hover {
+  color: var(--cards-label-hover-color);
+}
+
+/* desktop: fixed 4-column grid to match the source layout, card box
+   capped to the source width (~277px) and left-aligned in its cell */
+@media (width >= 768px) {
+  .cards-nav > ul {
+    grid-template-columns: repeat(auto-fill, minmax(var(--cards-grid-min-width), 1fr));
+    justify-items: start;
+    padding: 20px 0;
+  }
+
+  .cards-nav > ul > li {
+    width: 100%;
+    max-width: var(--cards-card-max-width);
+  }
+
+  .cards-nav .cards-card-image {
+    flex: 0 0 34%;
+  }
+
+  .cards-nav > ul > li > a:hover {
+    background-color: var(--brand-secondary);
+}
+}
+
+@media (width >= 992px) {
+  .cards-nav > ul {
+    grid-template-columns: repeat(var(--cards-columns), 1fr);
+  }
+}
