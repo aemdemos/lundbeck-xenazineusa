@@ -1,8 +1,4 @@
 import {
-  buildBlock,
-  decorateBlock,
-  loadBlock,
-  loadHeader,
   loadFooter,
   decorateIcons,
   decorateBlocks,
@@ -141,7 +137,6 @@ function autolinkModals(doc) {
 
 /**
  * Autoblocks injected during loadLazy (non-critical, not authored in DA).
- */
 async function buildLazyAutoBlocks() {
   if (!document.querySelector('.back-to-top')) {
     const block = buildBlock('back-to-top', '');
@@ -150,6 +145,7 @@ async function buildLazyAutoBlocks() {
     await loadBlock(block);
   }
 }
+ */
 
 /**
  * Builds all synthetic blocks in a container element.
@@ -862,9 +858,10 @@ async function loadLazy(doc) {
     if (hasQE) import('../tools/quick-edit/quick-edit.js').then((mod) => mod.default());
   })();
 
-  loadHeader(doc.querySelector('header'));
   loadFooter(doc.querySelector('footer'));
-  await buildLazyAutoBlocks();
+  // eslint-disable-next-line sonarjs/no-commented-code
+  /* loadHeader(doc.querySelector('header'));
+   await buildLazyAutoBlocks(); */
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();

@@ -75,12 +75,26 @@
     flex: 0 0 34%;
   }
 
+  .cards-nav > ul > li > a {
+    align-items: unset;
+  }
+
   .cards-nav > ul > li > a:hover {
     background-color: var(--brand-secondary);
 }
 }
 
 @media (width >= 992px) {
+  .cards-nav {
+    max-width: 85%;
+    margin: auto;
+  }
+
+  .cards-nav > ul > li {
+    width: 100%;
+    max-width: unset;
+  }
+
   .cards-nav > ul {
     grid-template-columns: repeat(var(--cards-columns), 1fr);
   }
