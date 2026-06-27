@@ -293,6 +293,10 @@ footer .footer .section.columns-container > * {
     align-items: flex-start;
     justify-content: flex-end;
   }
+
+  footer .footer .columns.columns-2-cols > div > :nth-child(2) {
+    flex-wrap: nowrap;
+}
 }
 
 /* xenazine: mobile (<768px) — pull the logo out of column flow so the legal
