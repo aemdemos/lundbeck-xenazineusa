@@ -81,13 +81,33 @@
   margin-bottom: unset;
 }
 
+.isi-bar h4 {
+  font-size: var(--heading-font-size-xs);
+  margin-bottom: 0;
+}
+
+.isi h4,
+.isi-bar h4,
+.isi h3,
+.isi-bar h3 {
+  font-family: avenir-heavy,'Arial Black',sans-serif;
+}
+
 .isi-bar-col h3:first-of-type,
 .isi-inline h3:first-of-type {
-  font-family: avenir-heavy,'Arial Black',sans-serif;
   vertical-align: middle;
   padding: 15px 10px;
   line-height: inherit;
   text-align: center;
+}
+
+.isi-bar .isi-bar-col > h3:first-of-type {
+  background-color: var(--brand-secondary);
+
+}
+
+.isi-inline h3:first-of-type {
+  background-color: var(--brand-primary);
 }
 
 .isi-inline {
@@ -105,13 +125,16 @@ main .isi p:has(sub) {
   line-height: 1;
 }
 
-.isi-bar .isi-bar-col > h3:first-of-type {
-  background-color: var(--brand-secondary);
-
+main .isi sub {
+  vertical-align: middle;
 }
 
-.isi-inline h3:first-of-type {
-  background-color: var(--brand-primary);
+main .isi .isi-inline blockquote p.center,
+blockquote p.center  {
+  font-family: avenir-heavy,arial,sans-serif;
+  margin-bottom:20px;
+  font-size: 14px;
+  margin-top: 0;
 }
 
 @media (width >= 768px) {
@@ -121,6 +144,10 @@ main .isi p:has(sub) {
 
   div.isi-bar {
     left: 10px;
+  }
+
+  .isi-bar h4 {
+    font-size: var(--heading-font-size-l);
   }
 
 main .isi .isi-inline p,
