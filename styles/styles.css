@@ -497,6 +497,10 @@ main .icon.icon-bullet { /* @libs */
   &.columns > div > div {
     justify-content: center;
   }
+
+  img {
+    margin: auto;
+  }
 }
 
 .right {
