@@ -51,6 +51,18 @@ export default function decorate(block) {
   inlineRow.classList.add('isi-inline');
   inlineRow.id = 'SafetyPanelInfo';
 
+  const inlineHeading = inlineRow.querySelector('h3');
+  if (inlineHeading) {
+    inlineHeading.classList.add('isi-inline-heading');
+    const toggle = document.createElement('span');
+    toggle.className = 'isi-inline-toggle';
+    toggle.setAttribute('aria-hidden', 'true');
+    const icon = document.createElement('span');
+    icon.className = 'isi-inline-toggle-icon';
+    toggle.append(icon);
+    inlineHeading.append(toggle);
+  }
+
   /* ── 2. Build the fixed bottom bar ──────────────────────────── */
   const bar = document.createElement('div');
   bar.className = 'isi-bar';

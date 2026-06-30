@@ -46,6 +46,10 @@
   --isi-bar-content-padding-x-desktop: 32px; /* @boilerplate */
   --isi-toggle-right-mobile: 16px; /* @boilerplate */
   --isi-toggle-right-desktop: 32px; /* @boilerplate */
+  --isi-inline-toggle-size: 16px;
+  --isi-inline-toggle-border-width: 1px;
+  --isi-inline-toggle-icon-size: 10px;
+  --isi-inline-toggle-icon-bar-thickness: 4px;
   --button-primary-hover-background: transparent;
 }
 
@@ -108,6 +112,43 @@
 
 .isi-inline h3:first-of-type {
   background-color: var(--brand-primary);
+  position: relative;
+  padding-right: calc(var(--isi-toggle-right) + var(--isi-inline-toggle-size) + 10px);
+}
+
+.isi-inline-toggle {
+  position: absolute;
+  right: var(--isi-toggle-right);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--isi-inline-toggle-size);
+  height: var(--isi-inline-toggle-size);
+  border: var(--isi-inline-toggle-border-width) solid var(--isi-toggle-color);
+  border-radius: 50%;
+  color: var(--isi-toggle-color);
+  pointer-events: none;
+}
+
+.isi-inline-toggle-icon {
+  display: block;
+  width: var(--isi-inline-toggle-icon-size);
+  height: var(--isi-inline-toggle-icon-size);
+  position: relative;
+}
+
+.isi-inline-toggle-icon::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: var(--isi-inline-toggle-icon-bar-thickness);
+  background-color: currentcolor;
+  border-radius: var(--isi-toggle-icon-bar-radius);
+  transform: translateY(-50%);
 }
 
 .isi-inline {
@@ -166,5 +207,11 @@ main .isi .isi-inline li {
   :root { /* @boilerplate */
     --isi-toggle-right: var(--isi-toggle-right-desktop); /* @boilerplate */
     --isi-bar-content-padding-x-desktop: 0;
+  }
+}
+
+@media (width <= 768px) {
+  :root {
+    --isi-toggle-right: var(--isi-toggle-right-mobile);
   }
 }
