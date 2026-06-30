@@ -291,6 +291,29 @@ main {
   padding: 0 10px;
 }
 
+body.error-page main.error .error-content {
+  margin: 48px 0 56px;
+  text-align: center;
+}
+
+body.error-page main.error .error-content h1 {
+  margin: 0 0 12px;
+  font-size: var(--heading-font-size-xxl);
+  line-height: var(--heading-line-height);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-color);
+}
+
+@media (width >= 768px) {
+  body.error-page main.error .error-content {
+    margin: 64px 0 72px;
+  }
+
+  body.error-page main.error .error-content h1 {
+    font-size: 36px;
+  }
+}
+
 main > div { /* @libs */
   margin: 40px 16px; /* @libs */
 }
