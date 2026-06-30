@@ -18,7 +18,10 @@
   --isi-bar-border-width: var(--isi-section-border-width); /* @boilerplate */
   --isi-bar-border-color: var(--isi-section-border-color); /* @boilerplate */
   --isi-bar-height: 185px;
-  --isi-bar-padding: 13px 13px 8px; /* @boilerplate */
+  --isi-bar-padding-top: 13px;
+  --isi-bar-padding: var(--isi-bar-padding-top) 13px 8px; /* @boilerplate */
+  --isi-bar-heading-padding-y: 15px;
+  --isi-bar-heading-row-height: calc(var(--isi-bar-heading-padding-y) * 2 + var(--isi-heading-font-size) * var(--isi-heading-line-height));
   --isi-bar-height-transition-duration: 0.3s; /* @boilerplate */
   --isi-bar-height-transition-easing: ease-in-out; /* @boilerplate */
   --isi-bar-expanded-max-height: 70vh; /* @boilerplate */
@@ -31,8 +34,8 @@
   --isi-bar-list-padding-left: 40px;
   --isi-bar-list-margin-bottom: 0;
   --isi-bar-link-font-weight: 600; /* @boilerplate */
-  --isi-toggle-right: 24px;
-  --isi-toggle-top: 24px;
+  --isi-toggle-right: 20px;
+  --isi-toggle-top: calc(var(--isi-bar-padding-top) + (var(--isi-bar-heading-row-height) - var(--isi-toggle-size)) / 2);
   --isi-toggle-border-width: 2px; /* @boilerplate */
   --isi-toggle-size: 24px; /* @boilerplate */
   --isi-toggle-color: var(--brand-teal-muted); /* @boilerplate */
@@ -44,8 +47,6 @@
   --isi-toggle-icon-bar-radius: 0; /* @boilerplate */
   --isi-bar-content-padding-x-mobile: 0; /* @boilerplate */
   --isi-bar-content-padding-x-desktop: 32px; /* @boilerplate */
-  --isi-toggle-right-mobile: 16px; /* @boilerplate */
-  --isi-toggle-right-desktop: 32px; /* @boilerplate */
   --isi-inline-toggle-size: 16px;
   --isi-inline-toggle-border-width: 1px;
   --isi-inline-toggle-icon-size: 10px;
@@ -100,14 +101,14 @@
 .isi-bar-col h3:first-of-type,
 .isi-inline h3:first-of-type {
   vertical-align: middle;
-  padding: 15px 10px;
+  padding: var(--isi-bar-heading-padding-y) 10px;
   line-height: inherit;
   text-align: center;
 }
 
 .isi-bar .isi-bar-col > h3:first-of-type {
   background-color: var(--brand-secondary);
-
+  padding-right: calc(var(--isi-toggle-right) + var(--isi-toggle-size) + 10px);
 }
 
 .isi-inline h3:first-of-type {
@@ -181,7 +182,7 @@ blockquote p.center  {
 
 @media (width >= 768px) {
   :root {
-    --isi-bar-height: 200px;
+    --isi-bar-height: 215px;
     }
 
   div.isi-bar {
@@ -205,13 +206,6 @@ main .isi .isi-inline li {
 
 @media (width >= 992px) { /* @boilerplate */
   :root { /* @boilerplate */
-    --isi-toggle-right: var(--isi-toggle-right-desktop); /* @boilerplate */
     --isi-bar-content-padding-x-desktop: 0;
-  }
-}
-
-@media (width <= 768px) {
-  :root {
-    --isi-toggle-right: var(--isi-toggle-right-mobile);
   }
 }
