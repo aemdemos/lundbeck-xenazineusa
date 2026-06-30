@@ -126,10 +126,19 @@
   justify-content: center;
   width: var(--isi-inline-toggle-size);
   height: var(--isi-inline-toggle-size);
+  padding: 0;
   border: var(--isi-inline-toggle-border-width) solid var(--isi-toggle-color);
   border-radius: 50%;
+  background: none;
   color: var(--isi-toggle-color);
-  pointer-events: none;
+  cursor: pointer;
+  transition: color var(--isi-toggle-transition-duration), border-color var(--isi-toggle-transition-duration);
+}
+
+.isi-inline-toggle:hover {
+  color: var(--isi-toggle-hover-color);
+  border-color: var(--isi-toggle-hover-color);
+  background: none;
 }
 
 .isi-inline-toggle-icon {

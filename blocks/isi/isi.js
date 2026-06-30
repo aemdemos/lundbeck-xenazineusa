@@ -8,6 +8,7 @@
  * Behaviour:
  *   • When the ISI **section** is outside the viewport the fixed bar is visible.
  *   • Clicking the "+" scrolls to the inline ISI content on the page.
+ *   • Clicking the "−" scrolls to the top of the page (matches xenazineusa.com).
  *   • Once the section scrolls into view the bar hides and the inline content displays.
  *
  * @param {HTMLElement} block
@@ -16,19 +17,18 @@
 /** Matches xenazineusa.com jQuery animate duration (1E3 ms) */
 const ISI_SCROLL_DURATION_MS = 1000;
 
+const easeInOutQuad = (t) => (t < 0.5 ? 2 * t * t : 1 - ((-2 * t + 2) ** 2) / 2);
+
 /**
- * Smooth scroll with explicit duration (native smooth scroll speed is not configurable).
- * @param {HTMLElement} element
+ * Smooth scroll to a vertical position with explicit duration.
+ * @param {number} targetY
  * @param {number} duration
  */
-function scrollToElement(element, duration = ISI_SCROLL_DURATION_MS) {
-  const scrollMargin = parseFloat(getComputedStyle(element).scrollMarginTop) || 0;
+function smoothScrollTo(targetY, duration = ISI_SCROLL_DURATION_MS) {
   const start = window.scrollY;
-  const target = element.getBoundingClientRect().top + start - scrollMargin;
-  const distance = target - start;
+  const distance = targetY - start;
+  if (distance === 0) return;
   const startTime = performance.now();
-
-  const easeInOutQuad = (t) => (t < 0.5 ? 2 * t * t : 1 - ((-2 * t + 2) ** 2) / 2);
 
   const step = (currentTime) => {
     const progress = Math.min((currentTime - startTime) / duration, 1);
@@ -37,6 +37,17 @@ function scrollToElement(element, duration = ISI_SCROLL_DURATION_MS) {
   };
 
   requestAnimationFrame(step);
+}
+
+/**
+ * Smooth scroll with explicit duration (native smooth scroll speed is not configurable).
+ * @param {HTMLElement} element
+ * @param {number} duration
+ */
+function scrollToElement(element, duration = ISI_SCROLL_DURATION_MS) {
+  const scrollMargin = parseFloat(getComputedStyle(element).scrollMarginTop) || 0;
+  const target = element.getBoundingClientRect().top + window.scrollY - scrollMargin;
+  smoothScrollTo(target, duration);
 }
 
 export default function decorate(block) {
@@ -54,13 +65,20 @@ export default function decorate(block) {
   const inlineHeading = inlineRow.querySelector('h3');
   if (inlineHeading) {
     inlineHeading.classList.add('isi-inline-heading');
-    const toggle = document.createElement('span');
-    toggle.className = 'isi-inline-toggle';
-    toggle.setAttribute('aria-hidden', 'true');
+    const inlineToggle = document.createElement('button');
+    inlineToggle.className = 'isi-inline-toggle';
+    inlineToggle.type = 'button';
+    inlineToggle.setAttribute('aria-label', 'Collapse safety information');
     const icon = document.createElement('span');
     icon.className = 'isi-inline-toggle-icon';
-    toggle.append(icon);
-    inlineHeading.append(toggle);
+    icon.setAttribute('aria-hidden', 'true');
+    inlineToggle.append(icon);
+    inlineHeading.append(inlineToggle);
+
+    inlineToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      smoothScrollTo(0);
+    });
   }
 
   /* ── 2. Build the fixed bottom bar ──────────────────────────── */
