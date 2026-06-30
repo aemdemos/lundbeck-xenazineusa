@@ -909,7 +909,7 @@ async function loadErrorPage(main) {
   main.classList.add('error', 'error-page-main');
 
   const pagePath = '/404';
-  const errorSection = main.querySelector('.error-content')?.closest('.section');
+  const errorSection = main.querySelector('.error-block, .error-number, .error-message')?.closest('.section');
 
   await ensureDOMPurify();
   const resp = await fetch(`${pagePath}.plain.html`);
@@ -930,7 +930,7 @@ async function loadErrorPage(main) {
 
     main.replaceChildren(...tempMain.childNodes);
 
-    if (errorSection && !main.querySelector('.error-content')) {
+    if (errorSection && !main.querySelector('.error-block, .error-number, .error-message')) {
       main.append(errorSection);
     }
   }

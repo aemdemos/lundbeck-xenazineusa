@@ -291,26 +291,60 @@ main {
   padding: 0 10px;
 }
 
-body.error-page main.error .error-content {
-  margin: 48px 0 56px;
-  text-align: center;
+/* 404 error shell — full-bleed header; boilerplate error block unchanged */
+
+body.error-page main > .section {
+  margin: 0;
 }
 
-body.error-page main.error .error-content h1 {
-  margin: 0 0 12px;
-  font-size: var(--heading-font-size-xxl);
-  line-height: var(--heading-line-height);
-  font-weight: var(--font-weight-bold);
+body.error-page main.error {
+  min-height: calc(100vh - var(--nav-height));
+  display: flex;
+  flex-direction: column;
+}
+
+body.error-page main.error > .section.error-block {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 48px 24px 64px 40px;
+}
+
+body.error-page main.error > .section.error-block > div {
+  margin: 0;
+  max-width: none;
+  padding: 0;
+  width: 100%;
+}
+
+body.error-page main.error .error-number {
+  display: block;
+  width: auto;
+  height: clamp(3.5rem, 8vw, 6.5rem);
+}
+
+body.error-page main.error .error-number text {
+  font-family: var(--heading-font-family);
+  font-weight: 700;
+}
+
+body.error-page main.error .error-message {
+  margin: 0 0 24px;
+  font-size: var(--heading-font-size-xl);
+  font-weight: 400;
+  line-height: 1.4;
   color: var(--text-color);
 }
 
-@media (width >= 768px) {
-  body.error-page main.error .error-content {
-    margin: 64px 0 72px;
-  }
+body.error-page main.error .button-container {
+  margin: 0;
+}
 
-  body.error-page main.error .error-content h1 {
-    font-size: 36px;
+@media (width >= 768px) {
+  body.error-page main.error > .section.error-block {
+    padding: 64px 32px 80px 48px;
   }
 }
 
@@ -743,6 +777,10 @@ main .section.stats-callout h4 {
 
   body {
     padding-left: 10px;
+  }
+
+  body.error-page {
+    padding-left: 0;
   }
 
     .hide-desktop {
