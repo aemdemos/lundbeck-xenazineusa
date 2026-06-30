@@ -17,7 +17,7 @@
   --isi-section-border-color: transparent;
   --isi-bar-border-width: var(--isi-section-border-width); /* @boilerplate */
   --isi-bar-border-color: var(--isi-section-border-color); /* @boilerplate */
-  --isi-bar-height: 165px;
+  --isi-bar-height: 185px;
   --isi-bar-padding: 13px 13px 8px; /* @boilerplate */
   --isi-bar-height-transition-duration: 0.3s; /* @boilerplate */
   --isi-bar-height-transition-easing: ease-in-out; /* @boilerplate */
@@ -25,7 +25,7 @@
   --isi-content-max-width: var(--max-width-site); /* @boilerplate */
   --isi-bar-content-gap: 0 24px; /* @boilerplate */
   --isi-bar-col-flex-basis: 45%; /* @boilerplate */
-  --isi-bar-heading-padding-bottom: 18px; /* @boilerplate */
+  --isi-bar-heading-padding-bottom: 10px; /* @boilerplate */
   --isi-bar-paragraph-line-height: 24px; /* @boilerplate */
   --isi-bar-paragraph-padding-bottom: 0;
   --isi-bar-list-padding-left: 40px;
@@ -112,6 +112,7 @@
 
 .isi-inline {
   margin-top: 80px;
+  scroll-margin-top: 16px;
 }
 
 main .isi .isi-inline p,
@@ -139,7 +140,7 @@ blockquote p.center  {
 
 @media (width >= 768px) {
   :root {
-    --isi-bar-height: 190px;
+    --isi-bar-height: 200px;
     }
 
   div.isi-bar {
