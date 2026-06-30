@@ -12,6 +12,7 @@ import {
   readBlockConfig,
   toClassName,
   loadScript,
+  DOMPURIFY,
 } from './aem.js';
 import {
   createArtDirectionPicture,
@@ -898,6 +899,44 @@ async function loadThemeSpreadSheetConfig() {
 */
 
 /**
+ * Injects authored /404 page sections into main (no programmatic header/search).
+ * Falls back to static markup in 404.html when content is not published yet.
+ * @param {Element} main The main element
+ */
+async function loadErrorPage(main) {
+  if (window.errorCode !== '404') return;
+
+  main.classList.add('error', 'error-page-main');
+
+  const pagePath = '/404';
+  const errorSection = main.querySelector('.error-block, .error-number, .error-message')?.closest('.section');
+
+  await ensureDOMPurify();
+  const resp = await fetch(`${pagePath}.plain.html`);
+  if (resp.ok) {
+    const tempMain = document.createElement('main');
+    tempMain.innerHTML = window.DOMPurify.sanitize(await resp.text(), DOMPURIFY);
+
+    const resetAttributeBase = (tag, attr) => {
+      if (attr !== 'src' && attr !== 'srcset') return;
+      tempMain.querySelectorAll(`${tag}[${attr}^="./media_"]`).forEach((elem) => {
+        const { href } = new URL(elem.getAttribute(attr), new URL(pagePath, window.location));
+        if (attr === 'src') elem.src = href;
+        else if (attr === 'srcset') elem.srcset = href;
+      });
+    };
+    resetAttributeBase('img', 'src');
+    resetAttributeBase('source', 'srcset');
+
+    main.replaceChildren(...tempMain.childNodes);
+
+    if (errorSection && !main.querySelector('.error-block, .error-number, .error-message')) {
+      main.append(errorSection);
+    }
+  }
+}
+
+/**
  * Loads everything needed to get to LCP.
  * @param {Element} doc The container element
  */
@@ -910,6 +949,10 @@ async function loadEager(doc) {
   }
   const main = doc.querySelector('main');
   if (main) {
+    if (window.isErrorPage) {
+      doc.body.classList.add('error-page');
+      await loadErrorPage(main);
+    }
     decorateMain(main);
     document.body.classList.add('appear');
     await loadSection(main.querySelector('.section'), waitForFirstImage);
@@ -962,9 +1005,6 @@ async function loadLazy(doc) {
   })();
 
   loadFooter(doc.querySelector('footer'));
-  // eslint-disable-next-line sonarjs/no-commented-code
-  /* loadHeader(doc.querySelector('header'));
-   await buildLazyAutoBlocks(); */
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
