@@ -17,7 +17,7 @@
   --isi-section-border-color: transparent;
   --isi-bar-border-width: var(--isi-section-border-width); /* @boilerplate */
   --isi-bar-border-color: var(--isi-section-border-color); /* @boilerplate */
-  --isi-bar-height: 165px;
+  --isi-bar-height: 185px;
   --isi-bar-padding: 13px 13px 8px; /* @boilerplate */
   --isi-bar-height-transition-duration: 0.3s; /* @boilerplate */
   --isi-bar-height-transition-easing: ease-in-out; /* @boilerplate */
@@ -25,13 +25,13 @@
   --isi-content-max-width: var(--max-width-site); /* @boilerplate */
   --isi-bar-content-gap: 0 24px; /* @boilerplate */
   --isi-bar-col-flex-basis: 45%; /* @boilerplate */
-  --isi-bar-heading-padding-bottom: 18px; /* @boilerplate */
+  --isi-bar-heading-padding-bottom: 10px; /* @boilerplate */
   --isi-bar-paragraph-line-height: 24px; /* @boilerplate */
   --isi-bar-paragraph-padding-bottom: 0;
   --isi-bar-list-padding-left: 40px;
   --isi-bar-list-margin-bottom: 0;
   --isi-bar-link-font-weight: 600; /* @boilerplate */
-  --isi-toggle-right: 24px;
+  --isi-toggle-right: var(--isi-toggle-right-mobile);
   --isi-toggle-top: 24px;
   --isi-toggle-border-width: 2px; /* @boilerplate */
   --isi-toggle-size: 24px; /* @boilerplate */
@@ -46,6 +46,10 @@
   --isi-bar-content-padding-x-desktop: 32px; /* @boilerplate */
   --isi-toggle-right-mobile: 16px; /* @boilerplate */
   --isi-toggle-right-desktop: 32px; /* @boilerplate */
+  --isi-inline-toggle-size: 16px;
+  --isi-inline-toggle-border-width: 1px;
+  --isi-inline-toggle-icon-size: 10px;
+  --isi-inline-toggle-icon-bar-thickness: 4px;
   --button-primary-hover-background: transparent;
 }
 
@@ -108,10 +112,57 @@
 
 .isi-inline h3:first-of-type {
   background-color: var(--brand-primary);
+  position: relative;
+  padding-right: calc(var(--isi-toggle-right) + var(--isi-inline-toggle-size) + 10px);
+}
+
+.isi-inline-toggle {
+  position: absolute;
+  right: var(--isi-toggle-right);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--isi-inline-toggle-size);
+  height: var(--isi-inline-toggle-size);
+  padding: 0;
+  border: var(--isi-inline-toggle-border-width) solid var(--isi-toggle-color);
+  border-radius: 50%;
+  background: none;
+  color: var(--isi-toggle-color);
+  cursor: pointer;
+  transition: color var(--isi-toggle-transition-duration), border-color var(--isi-toggle-transition-duration);
+}
+
+.isi-inline-toggle:hover {
+  color: var(--isi-toggle-hover-color);
+  border-color: var(--isi-toggle-hover-color);
+  background: none;
+}
+
+.isi-inline-toggle-icon {
+  display: block;
+  width: var(--isi-inline-toggle-icon-size);
+  height: var(--isi-inline-toggle-icon-size);
+  position: relative;
+}
+
+.isi-inline-toggle-icon::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: var(--isi-inline-toggle-icon-bar-thickness);
+  background-color: currentcolor;
+  border-radius: var(--isi-toggle-icon-bar-radius);
+  transform: translateY(-50%);
 }
 
 .isi-inline {
   margin-top: 80px;
+  scroll-margin-top: 16px;
 }
 
 main .isi .isi-inline p,
@@ -139,7 +190,8 @@ blockquote p.center  {
 
 @media (width >= 768px) {
   :root {
-    --isi-bar-height: 190px;
+    --isi-bar-height: 200px;
+    --isi-toggle-right: 24px;
     }
 
   div.isi-bar {
@@ -150,15 +202,15 @@ blockquote p.center  {
     font-size: var(--heading-font-size-l);
   }
 
-main .isi .isi-inline p,
-main .isi .isi-inline li {
-  font-size: var(--body-font-size-m);
-}
+  main .isi .isi-inline p,
+  main .isi .isi-inline li {
+    font-size: var(--body-font-size-m);
+  }
 
-.isi-bar blockquote p,
-.isi-bar blockquote li {
-  font-family: avenir-heavy,arial,sans-serif;
-}
+  .isi-bar blockquote p,
+  .isi-bar blockquote li {
+    font-family: avenir-heavy,arial,sans-serif;
+  }
 }
 
 @media (width >= 992px) { /* @boilerplate */
