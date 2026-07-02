@@ -22,7 +22,6 @@ async function loadConsentManager() {
   });
 }
 
-// Adobe Launch (DTM) — libraryCode is loaded automatically by this bootstrap
 async function loadAdobeLaunch() {
   if (!isMartechEnabled()) return;
 
