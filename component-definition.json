@@ -130,6 +130,18 @@
           }
         },
         {
+          "title": "Cards-nav",
+          "id": "cards-nav",
+          "plugins": {
+            "da": {
+              "rows": 0,
+              "columns": 0
+            }
+          },
+          "model": "cards-nav",
+          "filter": "cards-nav"
+        },
+        {
           "title": "Cards",
           "id": "cards",
           "plugins": {
