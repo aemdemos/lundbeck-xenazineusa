@@ -25,12 +25,8 @@ export default function decorate(block) {
     ul.append(card);
   });
   ul.querySelectorAll('picture > img').forEach((img) => {
-    // The visible text label already names the card, so the icon is decorative.
-    // Empty alt prevents screen readers (NVDA) from announcing the card twice.
-    const optimizedPic = createOptimizedPicture(img.src, '', false, [{ width: '750' }]);
-    const optimizedImg = optimizedPic.querySelector('img');
-    optimizedImg.setAttribute('aria-hidden', 'true');
-    moveInstrumentation(img, optimizedImg);
+    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+    moveInstrumentation(img, optimizedPic.querySelector('img'));
     img.closest('picture').replaceWith(optimizedPic);
   });
 
