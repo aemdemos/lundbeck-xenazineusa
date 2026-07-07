@@ -282,8 +282,9 @@ function inPageTarget(anchor) {
 
 /**
  * Delegated smooth-scroll for in-page anchor links (e.g. nav cards that jump to
- * an on-page section). Matches the animated scroll on xenazineusa.com and keeps
- * the URL hash in sync. Cross-page and external links are left untouched.
+ * an on-page section). Matches the animated scroll on xenazineusa.com without
+ * changing the URL hash (the source site scrolls without updating the URL).
+ * Cross-page and external links are left untouched.
  * @param {Document|Element} scope
  */
 export function enableSmoothAnchorScroll(scope = document) {
@@ -299,7 +300,6 @@ export function enableSmoothAnchorScroll(scope = document) {
     const scrollMargin = parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
     const targetY = target.getBoundingClientRect().top + window.scrollY - scrollMargin;
     animatedScrollTo(targetY);
-    window.history.pushState(null, '', anchor.getAttribute('href'));
   });
 }
 
