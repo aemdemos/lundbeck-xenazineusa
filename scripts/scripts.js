@@ -231,6 +231,78 @@ export function decorateExternalLinks(element) {
   });
 }
 
+/** Duration for the in-page anchor smooth scroll (matches xenazineusa.com). */
+const ANCHOR_SCROLL_DURATION_MS = 1000;
+
+const anchorEaseInOutQuad = (t) => (t < 0.5 ? 2 * t * t : 1 - ((-2 * t + 2) ** 2) / 2);
+
+/**
+ * Smooth-scrolls the window to a target Y with an explicit duration (native
+ * smooth scroll speed is not configurable).
+ * @param {number} targetY
+ * @param {number} duration
+ */
+function animatedScrollTo(targetY, duration = ANCHOR_SCROLL_DURATION_MS) {
+  const start = window.scrollY;
+  const distance = targetY - start;
+  if (distance === 0) return;
+  const startTime = performance.now();
+
+  const step = (now) => {
+    const progress = Math.min((now - startTime) / duration, 1);
+    window.scrollTo(0, start + distance * anchorEaseInOutQuad(progress));
+    if (progress < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+/**
+ * Resolves the in-page target for an anchor click, or null if the link is not
+ * a same-page hash link (external, cross-page, or bare "#").
+ * @param {HTMLAnchorElement} anchor
+ * @returns {HTMLElement|null}
+ */
+function inPageTarget(anchor) {
+  const href = anchor.getAttribute('href');
+  if (!href || href === '#' || !href.includes('#')) return null;
+
+  let url;
+  try {
+    url = new URL(href, window.location.href);
+  } catch {
+    return null;
+  }
+  // must resolve to the current page (same path) to be an in-page anchor
+  if (url.pathname !== window.location.pathname || !url.hash) return null;
+
+  const id = decodeURIComponent(url.hash.substring(1));
+  if (!id) return null;
+  return document.getElementById(id);
+}
+
+/**
+ * Delegated smooth-scroll for in-page anchor links (e.g. nav cards that jump to
+ * an on-page section). Matches the animated scroll on xenazineusa.com and keeps
+ * the URL hash in sync. Cross-page and external links are left untouched.
+ * @param {Document|Element} scope
+ */
+export function enableSmoothAnchorScroll(scope = document) {
+  scope.addEventListener('click', (e) => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const anchor = e.target.closest('a[href*="#"]');
+    if (!anchor) return;
+
+    const target = inPageTarget(anchor);
+    if (!target) return;
+
+    e.preventDefault();
+    const scrollMargin = parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
+    const targetY = target.getBoundingClientRect().top + window.scrollY - scrollMargin;
+    animatedScrollTo(targetY);
+    window.history.pushState(null, '', anchor.getAttribute('href'));
+  });
+}
+
 function a11yLinks(main) {
   const links = main.querySelectorAll('a');
   links.forEach((link) => {
@@ -1179,6 +1251,8 @@ async function loadLazy(doc) {
 
   const main = doc.querySelector('main');
   await loadSections(main);
+
+  enableSmoothAnchorScroll(doc);
 
   const { hash } = window.location;
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
