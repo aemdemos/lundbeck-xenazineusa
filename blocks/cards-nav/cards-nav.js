@@ -1,5 +1,5 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
-import { moveInstrumentation, getBlockId } from '../../scripts/scripts.js';
+import { moveInstrumentation, getBlockId, decorateExternalLinks } from '../../scripts/scripts.js';
 import { createCard } from '../card/card.js';
 
 export default function decorate(block) {
@@ -37,4 +37,8 @@ export default function decorate(block) {
 
   block.textContent = '';
   block.append(ul);
+
+  // cards rebuild their anchors from scratch (only href is copied), so re-apply
+  // the external-link / PDF new-tab decoration to the freshly created links.
+  decorateExternalLinks(block);
 }
