@@ -8,6 +8,13 @@
   gap: var(--cards-grid-gap);
 }
 
+.cards-nav > ul > li:nth-child(2) { order: 2; } /* Prescribing */
+.cards-nav > ul > li:nth-child(3) { order: 4; } /* Medication Guide */
+.cards-nav > ul > li:nth-child(4) { order: 6; } /* Healthcare Professionals */
+.cards-nav > ul > li:nth-child(5) { order: 1; } /* Treatment Form */
+.cards-nav > ul > li:nth-child(6) { order: 3; } /* Other Support */
+.cards-nav > ul > li:nth-child(7) { order: 5; } /* Copay */
+
 /* each card is a white rounded box with a soft shadow; label left, icon right */
 .cards-nav > ul > li > a {
   box-sizing: border-box;
@@ -61,7 +68,7 @@
    capped to the source width (~277px) and left-aligned in its cell */
 @media (width >= 768px) {
   .cards-nav > ul {
-    grid-template-columns: repeat(auto-fill, minmax(var(--cards-grid-min-width), 1fr));
+    grid-template-columns: repeat(3, 1fr);
     justify-items: start;
     padding: 20px 0;
   }
@@ -74,6 +81,16 @@
   .cards-nav .cards-card-image {
     flex: 0 0 34%;
   }
+
+   /* desktop uses the authored row-major order (reset the mobile re-ordering) */
+   .cards-nav > ul > li:nth-child(2),
+   .cards-nav > ul > li:nth-child(3),
+   .cards-nav > ul > li:nth-child(4),
+   .cards-nav > ul > li:nth-child(5),
+   .cards-nav > ul > li:nth-child(6),
+   .cards-nav > ul > li:nth-child(7) {
+     order: 0;
+   }
 
   .cards-nav > ul > li > a {
     align-items: unset;
@@ -97,5 +114,9 @@
 
   .cards-nav > ul {
     grid-template-columns: repeat(var(--cards-columns), 1fr);
+  }
+
+  .cards-nav > ul > li:nth-child(4) {
+    order: 0;
   }
 }
