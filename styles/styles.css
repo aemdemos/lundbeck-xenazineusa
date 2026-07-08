@@ -60,8 +60,8 @@
   --section-padding: 24px;
   
   /* fonts */
-  --body-font-family: avenir, avenir-fallback, sans-serif; /* @libs */
-  --heading-font-family: avenir, avenir-fallback, sans-serif; /* @libs */
+  --body-font-family: 'Avenir LT W01_55 Roman', avenir, avenir-fallback, arial, sans-serif;
+  --heading-font-family: 'Avenir LT W01_55 Roman', avenir, avenir-fallback, arial, sans-serif;
   --body-line-height: 1.4; /* @libs */
   --heading-font-weight: 800; /* @libs */
   --heading-line-height: 1.2; /* @libs */
