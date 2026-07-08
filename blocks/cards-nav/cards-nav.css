@@ -8,6 +8,16 @@
   gap: var(--cards-grid-gap);
 }
 
+/* Mobile single column: content is authored in desktop row-major order, so
+   re-order into the source's column-major sequence:
+   ISI, Treatment Form, Prescribing, Other Support, Medication Guide, Copay, HCP */
+.cards-nav > ul > li:nth-child(2) { order: 2; } /* Prescribing */
+.cards-nav > ul > li:nth-child(3) { order: 4; } /* Medication Guide */
+.cards-nav > ul > li:nth-child(4) { order: 6; } /* Healthcare Professionals */
+.cards-nav > ul > li:nth-child(5) { order: 1; } /* Treatment Form */
+.cards-nav > ul > li:nth-child(6) { order: 3; } /* Other Support */
+.cards-nav > ul > li:nth-child(7) { order: 5; } /* Copay */
+
 /* each card is a white rounded box with a soft shadow; label left, icon right */
 .cards-nav > ul > li > a {
   box-sizing: border-box;
@@ -61,9 +71,23 @@
    capped to the source width (~277px) and left-aligned in its cell */
 @media (width >= 768px) {
   .cards-nav > ul {
-    grid-template-columns: repeat(auto-fill, minmax(var(--cards-grid-min-width), 1fr));
+    grid-template-columns: repeat(3, 1fr);
     justify-items: start;
     padding: 20px 0;
+  }
+
+  /* tablet (3-col grid): reset the mobile column-major re-ordering to authored
+     order, but keep Healthcare Professionals last to match the source grouping */
+  .cards-nav > ul > li:nth-child(2),
+  .cards-nav > ul > li:nth-child(3),
+  .cards-nav > ul > li:nth-child(5),
+  .cards-nav > ul > li:nth-child(6),
+  .cards-nav > ul > li:nth-child(7) {
+    order: 0;
+  }
+
+  .cards-nav > ul > li:nth-child(4) { /* Healthcare Professionals */
+    order: 1;
   }
 
   .cards-nav > ul > li {
@@ -97,5 +121,11 @@
 
   .cards-nav > ul {
     grid-template-columns: repeat(var(--cards-columns), 1fr);
+  }
+
+  /* desktop (4-col grid) uses the authored row-major order; reset the tablet
+     rule that moved Healthcare Professionals to the end */
+  .cards-nav > ul > li:nth-child(4) {
+    order: 0;
   }
 }
