@@ -8,7 +8,7 @@
     },
     {
       "id": "experience-workspace",
-      "title": "Canvas",
+      "title": "Edit",
       "environments": [ "dev", "preview", "live" ],
       "event": "experience-workspace"
     }
