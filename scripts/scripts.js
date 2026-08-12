@@ -96,24 +96,6 @@ export function moveInstrumentation(from, to) {
  * Builds hero block and prepends to main in a new section.
  * @param {Element} main The container element */
 
-/* uncomment if using autoblocking in DA, and add to buildAutoBlocks(main).
-
-function buildHeroBlock(main) {
-  const h1 = main.querySelector('h1');
-  const picture = main.querySelector('picture');
-  // eslint-disable-next-line no-bitwise
-  if (h1 && picture && (h1.compareDocumentPosition(picture) & Node.DOCUMENT_POSITION_PRECEDING)) {
-    // Check if h1 or picture is already inside a hero block
-    if (h1.closest('.hero') || picture.closest('.hero')) {
-      return; // Don't create a duplicate hero block
-    }
-    const section = document.createElement('div');
-    section.append(buildBlock('hero', { elems: [picture, h1] }));
-    main.prepend(section);
-  }
-}
-*/
-
 /* add a block id_number to a block instance (when any decorate(block) defines it)
   to be used for martech tracking, aria-controls, aria-labelledby, etc.
 */
@@ -508,6 +490,39 @@ export function decorateSections(main) {
   }
 }
 
+/**
+ * Wraps each run of 2+ consecutive sections carrying the `flex` class into its own
+ * `.flex-group` container, so CSS can lay them out side-by-side. Operates purely on
+ * section elements and their classes — no inspection of inner block types. A run is
+ * broken by any non-flex section or the end of main; each run becomes an independent
+ * flex context. A lone flex section (no adjacent flex sibling) is left untouched.
+ * @param {Element} main The main element
+ */
+export function groupFlexSections(main) {
+  const sections = [...main.querySelectorAll(':scope > .section')].slice(0, MAX_SECTIONS);
+  const sectionLimit = Math.min(sections.length, MAX_SECTIONS);
+  let i = 0;
+  while (i < sectionLimit) {
+    if (!sections[i].classList.contains('flex')) {
+      i += 1;
+    } else {
+      let j = i + 1;
+      while (j < sectionLimit && sections[j].classList.contains('flex')) {
+        j += 1;
+      }
+      const run = sections.slice(i, j);
+      if (run.length > 1) {
+        const group = document.createElement('div');
+        group.className = 'flex-group';
+        group.setAttribute('data-flex-count', String(run.length));
+        main.insertBefore(group, run[0]);
+        run.forEach((section) => group.append(section));
+      }
+      i = j;
+    }
+  }
+}
+
 /* === END SECTIONS === */
 
 /** Max lists / items to process for icon bullets (CWE-770). */
@@ -653,7 +668,7 @@ export function decorateIconsAndBullets(element, prefix = '') {
 
 /* === END SECTIONS === */
 
-/* === BRACKET TAGS ===
+/* === BRACKET TAGS v3 ===
  * Bracket syntax: [[class1,class2]text] → <span class="class1 class2">text</span>
  * Nested section syntax: [#section-id] → cloned content from section-metadata ID.
  * Only alphanumeric, hyphen, and underscore are allowed in class names.
@@ -672,9 +687,10 @@ function parseSplitClasses(raw) {
   return parseClasses(raw, /^[a-z0-9-]+$/);
 }
 
-const SPLIT_INLINE_TAGS = new Set(['STRONG', 'EM', 'A', 'BR']);
+const SPLIT_INLINE_TAGS = new Set(['STRONG', 'EM', 'A', 'BR', 'U', 'SUP', 'SUB', 'DEL']);
 
-const ALIGNMENT_CLASSES = new Set(['center', 'left', 'right']);
+const ALIGNMENT_CLASSES = new Set(['center', 'center-mobile', 'center-desktop',
+  'left', 'left-mobile', 'left-desktop', 'right', 'right-mobile', 'right-desktop']);
 
 const SPAN_TAG_SELECTOR = 'h1, h2, h3, h4, h5, h6, p, li';
 
@@ -715,7 +731,21 @@ function splitAlignmentClasses(classes) {
   }, { alignClasses: [], regularClasses: [] });
 }
 
-function applySplitBoundaryPass(el) {
+// Descends through single-child wrappers (e.g. a heading whose entire content is one
+// <strong>) to find the element whose direct children actually hold the split text/inline
+// nodes. Bracket content can be nested one or more levels inside such a wrapper.
+function getSplitContainer(el) {
+  let container = el;
+  while (container.childNodes.length === 1) {
+    const [only] = container.childNodes;
+    if (only.nodeType !== Node.ELEMENT_NODE || !SPLIT_INLINE_TAGS.has(only.nodeName)) break;
+    container = only;
+  }
+  return container;
+}
+
+function applySplitBoundaryPass(container, alignTarget = container) {
+  const el = container;
   const children = [...el.childNodes];
 
   for (let i = 0; i < children.length - 2; i += 1) {
@@ -751,7 +781,7 @@ function applySplitBoundaryPass(el) {
         const closeMatch = openMatch && classes.length ? next.nodeValue.match(/^\s*\]/) : null;
         if (closeMatch) {
           const { alignClasses, regularClasses } = splitAlignmentClasses(classes);
-          if (alignClasses.length) el.classList.add(...alignClasses);
+          if (alignClasses.length) alignTarget.classList.add(...alignClasses);
           prev.nodeValue = prev.nodeValue.slice(0, -openMatch[0].length);
           next.nodeValue = next.nodeValue.slice(closeMatch[0].length);
           if (regularClasses.length) {
@@ -772,7 +802,7 @@ function applySplitBoundaryPass(el) {
       if (isPrevInline && isNextInline && openerText.endsWith('[[') && classes.length
         && closerText.startsWith(']') && closerText.endsWith(']')) {
         const { alignClasses, regularClasses } = splitAlignmentClasses(classes);
-        if (alignClasses.length) el.classList.add(...alignClasses);
+        if (alignClasses.length) alignTarget.classList.add(...alignClasses);
         next.textContent = closerText.slice(1, -1);
         if (regularClasses.length) {
           const insertRef = next.nextSibling;
@@ -911,13 +941,87 @@ function hoistAlignmentAcrossInlines(el) {
   }
 }
 
+const MULTI_NODE_OPEN_RE = /\[\[([a-z0-9,-]+)\]/;
+
+// Finds a "[[classes]" opener whose closing "]" is not in the same text node, and locates
+// that closing "]" across any run of plain text and SPLIT_INLINE_TAGS elements that follows
+// (e.g. content broken up by one or more <br>). Used to catch spans that the fixed 3-node
+// window in applySplitBoundaryPass can't reach.
+function findMultiNodeSpanBoundary(el) {
+  const children = [...el.childNodes];
+  for (let i = 0; i < children.length; i += 1) {
+    const openNode = children.at(i);
+    if (openNode.nodeType !== Node.TEXT_NODE) continue; // eslint-disable-line no-continue
+
+    const openMatch = openNode.nodeValue.match(MULTI_NODE_OPEN_RE);
+    if (!openMatch) continue; // eslint-disable-line no-continue
+
+    const afterOpen = openMatch.index + openMatch[0].length;
+    if (openNode.nodeValue.slice(afterOpen).includes(']')) continue; // eslint-disable-line no-continue
+
+    const classes = parseSplitClasses(openMatch[1]);
+    if (!classes.length) continue; // eslint-disable-line no-continue
+
+    for (let j = i + 1; j < children.length; j += 1) {
+      const node = children.at(j);
+      if (node.nodeType === Node.TEXT_NODE) {
+        const closeIdx = node.nodeValue.indexOf(']');
+        if (closeIdx !== -1) {
+          return {
+            openNode, afterOpen, openIndex: openMatch.index, classes, closeNode: node, closeIdx,
+          };
+        }
+      } else if (!SPLIT_INLINE_TAGS.has(node.nodeName)) {
+        break;
+      }
+    }
+  }
+  return null;
+}
+
+function applyMultiNodeSpanTag(container, alignTarget = container) {
+  const boundary = findMultiNodeSpanBoundary(container);
+  if (!boundary) return false;
+  const {
+    openNode, afterOpen, openIndex, classes, closeNode, closeIdx,
+  } = boundary;
+
+  const range = document.createRange();
+  range.setStart(openNode, afterOpen);
+  range.setEnd(closeNode, closeIdx);
+
+  const { alignClasses, regularClasses } = splitAlignmentClasses(classes);
+  const fragment = range.extractContents();
+  if (regularClasses.length) {
+    const span = document.createElement('span');
+    span.className = regularClasses.join(' ');
+    span.appendChild(fragment);
+    range.insertNode(span);
+  } else {
+    range.insertNode(fragment);
+  }
+  if (alignClasses.length) alignTarget.classList.add(...alignClasses);
+
+  openNode.nodeValue = openNode.nodeValue.slice(0, openIndex);
+  closeNode.nodeValue = closeNode.nodeValue.slice(1);
+  return true;
+}
+
 export function decorateSpanTags(element) {
   element.querySelectorAll(SPAN_TAG_SELECTOR).forEach((el) => {
-    if (el.textContent.includes('[[')) hoistAlignmentAcrossInlines(el);
+    if (!el.textContent.includes('[[')) return;
+
+    hoistAlignmentAcrossInlines(el);
 
     const nodes = collectTextNodes(el, '[[');
     nodes.forEach((n) => replaceTextNode(n, el));
-    applySplitBoundaryPass(el);
+
+    const container = getSplitContainer(el);
+    applySplitBoundaryPass(container, el);
+
+    while (el.textContent.includes('[[')) {
+      if (!applyMultiNodeSpanTag(container, el)) break;
+    }
   });
 
   cleanAttributes(element);
@@ -1072,7 +1176,7 @@ function decorateNestedSections(main) {
  * Decorates the main element.
  * @param {Element} main The main element
  */
-// eslint-disable-next-line import/prefer-default-export
+
 export function decorateMain(main) {
   // hopefully forward compatible button decoration
   decorateIconsAndBullets(main);
@@ -1085,96 +1189,6 @@ export function decorateMain(main) {
   decorateExternalLinks(main);
   decorateSpanTags(main);
 }
-
-/**
- * Loads a theme spread sheet config.
- * To use, create a design sheet with columns: Property, Value, Section, Block.
- * add column 'design' to the metadata and set it to the path of the design sheet for your page.
- */
-
-/* uncomment if using theme spread sheets
-function addOverlayRule(ruleSet, selector, property, value) {
-  if (!ruleSet.has(selector)) {
-    ruleSet.set(selector, [`--${property}: ${value};`]);
-  } else {
-    ruleSet.get(selector).push(`--${property}: ${value};`);
-  }
-}
-
-async function loadThemeSpreadSheetConfig() {
-  const theme = getMetadata('design');
-  if (!theme) return;
-  // make sure the json files are added to paths.json first
-  const resp = await fetch(`/${theme}.json?offset=0&limit=500`);
-
-  if (resp.status === 200) {
-    // create style element that should be last in the head
-    document.head.insertAdjacentHTML('beforeend', '<style id="style-overrides"></style>');
-    const sheets = window.document.styleSheets;
-    const sheet = sheets.item(sheets.length - 1);
-    // load spreadsheet
-    const json = await resp.json();
-    const tokens = json.data || json.default.data;
-    // go through the entries and create the rule set
-    const ruleSet = new Map();
-    tokens.forEach((e) => {
-      const {
-        Property, Value, Section, Block,
-      } = e;
-      let selector = '';
-      if (Section.length === 0 && Block.length === 0) {
-        // :root { --<property>: <value>; }
-        addOverlayRule(ruleSet, ':root', Property, Value);
-      } else {
-        // define the section selector if set
-        if (Section.length > 0) {
-          selector = `main .section.${Section}`;
-        } else {
-          selector = 'main .section';
-        }
-        // define the block selector if set
-        if (Block.length) {
-          Block.split(',').forEach((entry) => {
-            // eslint-disable-next-line no-param-reassign
-            entry = entry.trim();
-            let blockSelector = selector;
-            // special cases: default wrapper, text, image, button, title
-            switch (entry) {
-              case 'default':
-                blockSelector += ' .default-content-wrapper';
-                break;
-              case 'image':
-                blockSelector += ` .default-content-wrapper img, ${selector} .block.columns img`;
-                break;
-              case 'text':
-                blockSelector += ` .default-content-wrapper p:not(:has(:is(a.button , picture))), ${selector} .columns.block p:not(:has(:is(a.button , picture)))`;
-                break;
-              case 'button':
-                blockSelector += ' .default-content-wrapper a.button';
-                break;
-              case 'title':
-                blockSelector += ` .default-content-wrapper :is(h1,h2,h3,h4,h5,h6), ${selector} .columns.block :is(h1,h2,h3,h4,h5,h6)`;
-                break;
-              default:
-                blockSelector += ` .block.${entry}`;
-            }
-            // main .section.<section-name> .block.<block-name> { --<property>: <value>; }
-            // or any of the spacial cases above
-            addOverlayRule(ruleSet, blockSelector, Property, Value);
-          });
-        } else {
-          // main .section.<section-name> { --<property>: <value>; }
-          addOverlayRule(ruleSet, selector, Property, Value);
-        }
-      }
-    });
-    // finally write the rule sets to the style element
-    ruleSet.forEach((rules, selector) => {
-      sheet.insertRule(`${selector} {${rules.join(';')}}`, sheet.cssRules.length);
-    });
-  }
-}
-*/
 
 /**
  * Injects authored /404 page sections into main (no programmatic header/search).
@@ -1301,7 +1315,7 @@ async function loadLazy(doc) {
  * without impacting the user experience.
  */
 function loadDelayed() {
-  // eslint-disable-next-line import/no-cycle
+
   const importDelayed = () => import('./delayed.js');
 
   if ('requestIdleCallback' in window) {
@@ -1333,7 +1347,7 @@ export async function loadPage() {
 
 // DA UE Editor support before page load
 if (window.location.hostname.includes('ue.da.live')) {
-  // eslint-disable-next-line import/no-unresolved
+
   await import(`${window.hlx.codeBasePath}/ue/scripts/ue.js`).then(({ default: ue }) => ue());
 }
 loadPage();
