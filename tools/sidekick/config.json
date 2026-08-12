@@ -1,14 +1,8 @@
 {
   "plugins": [
     {
-      "id": "aemedit",
-      "title": "DA Edit",
-      "environments": [ "dev", "preview", "live" ],
-      "event": "aemedit"
-    },
-    {
       "id": "experience-workspace",
-      "title": "Edit",
+      "title": "Exp. Workspace",
       "environments": [ "dev", "preview", "live" ],
       "event": "experience-workspace"
     }
