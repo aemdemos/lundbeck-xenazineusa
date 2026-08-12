@@ -3,8 +3,14 @@
     {
       "id": "experience-workspace",
       "title": "Exp. Workspace",
-      "environments": [ "dev", "preview", "live" ],
+      "environments": [ "edit", "dev", "preview", "live" ],
       "event": "experience-workspace"
+    },
+    {
+      "id": "library",
+      "title": "Library",
+      "environments": [ "edit", "dev", "preview" ],
+      "url": "/tools/sidekick/library.html"
     }
   ]
 }
