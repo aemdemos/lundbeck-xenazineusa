@@ -545,6 +545,15 @@ main .icon.icon-bullet { /* @libs */
   margin-top: 0.15em; /* @libs */
 }
 
+/* single-purpose text utility; !important so it reliably wins over
+   block-level paragraph rules (e.g. columns' 22px line-height) wherever
+   an author or block explicitly opts in. */
+.small-text {
+  display: block;
+  font-size: var(--body-font-size-xs) !important;
+  line-height: 1.2 !important;
+}
+
 /* responsive visibility utilities (authorable via [hide-mobile] / [hide-desktop] bracket spans) */
 
 /* ==== START alignment + display for mobile ==== */
