@@ -1,4 +1,6 @@
 /* eslint-disable import/no-unresolved */
+/* this was originally for picking color values but was adapted to insert any CSS class name.
+ * from the style-variables sheet in authoring. See docs/span-tags.md and docs/cell-class.md for more info. */
 import { LitElement, html, css } from 'https://da.live/deps/lit/lit-all.min.js';
 import DA_SDK from 'https://da.live/nx/utils/sdk.js';
 
@@ -64,8 +66,8 @@ class PaletteElement extends LitElement {
       border-radius: 4px;
       transition: all 0.2s ease;
       display: grid;
-      grid-template-columns: 100px auto;
-      gap: 20px;
+      grid-template-columns: 10px auto;
+      gap: 10px;
       font-family: 'Adobe Clean', adobe-clean, 'Trebuchet MS', sans-serif;
     }
 
@@ -133,8 +135,8 @@ class PaletteElement extends LitElement {
     return html`
       <ul>
         ${this.palette.map((color) => {
-          const brandName = color['brand-name'];
-          const colorValue = color['color-value'];
+          const brandName = color['variable-name'];
+          const colorValue = color['variable-style'];
           const uses = color.application;
           const isMatch =
             !this.searchTerm ||
